@@ -3,6 +3,9 @@ function( make_executable target_name sources headers links )
 
    set( target ${target_name} )
 
+   # How to copy libraries (DLL's on Windows) over to binary directory
+   # https://stackoverflow.com/a/63158941
+
    add_executable(
       ${target}
       ${sources}
@@ -36,6 +39,9 @@ function( make_library target_name sources headers links include_dir )
 
    set( target ${target_name} )
 
+   # How to copy libraries (DLL's on Windows) over to binary directory
+   # https://stackoverflow.com/a/63158941
+
    add_library(
       ${target}
       SHARED
@@ -50,14 +56,12 @@ function( make_library target_name sources headers links include_dir )
    )
 
    include_directories(
-      # ${CMAKE_CURRENT_SOURCE_DIR}/include_dir
       ${include_dir}
    )
    
    target_include_directories(
       ${target}
       PUBLIC
-      # ${CMAKE_CURRENT_SOURCE_DIR}/include_dir
       ${include_dir}
    )
 

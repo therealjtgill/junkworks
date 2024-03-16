@@ -19,68 +19,6 @@ add_compile_definitions(
 set( LIBRARY_OUTPUT_PATH "${CMAKE_BINARY_DIR}/bin" )
 set( EXECUTABLE_OUTPUT_PATH "${CMAKE_BINARY_DIR}/bin" )
 
-# How to copy libraries (DLL's on Windows) over to binary directory
-# https://stackoverflow.com/a/63158941
-
 add_subdirectory( demos/client_server )
 
 add_subdirectory( junkwork )
-
-# set(
-#    sources
-#    client.cpp
-#    # server.cpp
-# )
-
-# set(
-#    headers
-
-# )
-
-# set(
-#    target
-#    networking_doodoo
-# )
-
-# add_executable(
-#    ${target}
-#    ${sources}
-#    ${headers}
-# )
-
-# include_directories(
-#    ${CMAKE_CURRENT_SOURCE_DIR}
-# )
-
-# target_include_directories(
-#    ${target}
-#    PUBLIC
-#    ${CMAKE_CURRENT_SOURCE_DIR}
-# )
-
-# set_target_properties(
-#    ${target}
-#    PROPERTIES
-#    LINKER_LANGUAGE
-#    CXX
-# )
-
-# set(
-#    link_libraries
-# )
-
-# # append wsock2 and ws2_32 to the link libraries variable if on Windows
-
-# target_link_libraries(
-#    ${target}
-# )
-
-# target_compile_options(
-#    ${target}
-#    PRIVATE
-#    -Wall
-#    -Wextra
-#    -Wpedantic
-#    -Wno-unused-function
-#    # -Werror
-# )

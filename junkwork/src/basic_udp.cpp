@@ -45,7 +45,6 @@ bool bind_socket(const int handle, const unsigned int port)
    if (
       bind(
          handle,
-         // static_cast<const sockaddr*>(&address),
          (const sockaddr*)&address,
          sizeof(sockaddr_in)
       ) < 0
