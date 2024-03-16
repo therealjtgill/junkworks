@@ -50,9 +50,15 @@ function( make_library target_name sources headers links include_dir )
    )
 
    include_directories(
+      # ${CMAKE_CURRENT_SOURCE_DIR}/include_dir
+      ${include_dir}
+   )
+   
+   target_include_directories(
       ${target}
       PUBLIC
-      ${CMAKE_CURRENT_SOURCE_DIR}/include_dir
+      # ${CMAKE_CURRENT_SOURCE_DIR}/include_dir
+      ${include_dir}
    )
 
    target_link_libraries(
