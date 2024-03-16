@@ -3,15 +3,15 @@ cmake_minimum_required( VERSION 3.16 )
 set( CMAKE_CXX_STANDARD 11 )
 
 project(
-    NETWORKING_DOODOO
-    VERSION 0.0.1
+   NETWORKING_DOODOO
+   VERSION 0.0.1
 )
 
 add_compile_definitions(
-    NETWORKING_DOODOO
-    PRIVATE
-    SOURCE_DIR="${CMAKE_SOURCE_DIR}/.."
-    BIN_DIR="${CMAKE_CURRENT_BINARY_DIR}"
+   NETWORKING_DOODOO
+   PRIVATE
+   SOURCE_DIR="${CMAKE_SOURCE_DIR}/.."
+   BIN_DIR="${CMAKE_CURRENT_BINARY_DIR}"
 )
 
 set( LIBRARY_OUTPUT_PATH "${CMAKE_BINARY_DIR}/bin" )
@@ -21,7 +21,8 @@ set( EXECUTABLE_OUTPUT_PATH "${CMAKE_BINARY_DIR}/bin" )
 # https://stackoverflow.com/a/63158941
 set(
    sources
-   main.cpp
+   client.cpp
+   # server.cpp
 )
 
 set(
