@@ -12,9 +12,7 @@ int main(int argc, char ** argv)
    // create the socket
    int handle = create_socket();
 
-   // // bind the socket
-   // unsigned int port = 8123;
-
+   // bind the socket
    unsigned int bind_port = atoi(argv[1]);
 
    std::cout << "port: " << bind_port << "\n";
