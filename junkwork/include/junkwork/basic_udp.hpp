@@ -65,6 +65,39 @@ struct Ipv4Address
       unsigned int ip[4];
 };
 
+class UdpSocket
+{
+   public:
+      UdpSocket(const unsigned int bind_port);
+
+      ~UdpSocket(void);
+
+      bool bind_to(const unsigned int bind_port);
+
+      bool try_send(
+         const Ipv4Address dest_ip,
+         const unsigned int dest_port,
+         const char * data,
+         const unsigned int data_len
+      ) const;
+
+      int try_receive(
+         const unsigned int max_data_len,
+         char * data
+      ) const;
+
+   private:
+      bool initialize_sockets(void);
+
+      void shutdown_sockets(void);
+
+      int socket_handle_;
+
+      bool bound_;
+
+      unsigned int bind_port_;
+};
+
 bool initialize_sockets(void);
 
 void shutdown_sockets(void);
@@ -73,9 +106,7 @@ int create_socket(void);
 
 bool bind_socket(const int handle, const unsigned int port);
 
-void close_socket(
-   const int handle
-);
+void close_socket(const int handle);
 
 bool send_packet(
    const int handle,
