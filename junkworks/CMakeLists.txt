@@ -1,12 +1,12 @@
 set(
    junkwork_sources
-   src/basic_udp.cpp
+   src/basic_udp.c
    src/udp_socket.cpp
 )
 
 set(
    junkwork_headers
-   include/junkworks/basic_udp.hpp
+   include/junkworks/basic_udp.h
    include/junkworks/network_common.h
    include/junkworks/udp_socket.hpp
 )

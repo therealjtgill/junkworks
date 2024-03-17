@@ -99,7 +99,7 @@ bool UdpSocket::try_send(
    send_address.sin_addr.s_addr = dest_ip.internet_address();
    send_address.sin_port = htons(dest_port);
 
-   const int num_bytes_sent = sendto(
+   const unsigned int num_bytes_sent = sendto(
       socket_handle_,
       data,
       data_len,
@@ -108,7 +108,8 @@ bool UdpSocket::try_send(
       sizeof(sockaddr_in)
    );
 
-   const bool length_match = (static_cast<const unsigned int>(num_bytes_sent) != data_len);
+   // const bool length_match = (static_cast<const unsigned int>(num_bytes_sent) != data_len);
+   const bool length_match = ((num_bytes_sent) != data_len);
 
    if (length_match)
    {

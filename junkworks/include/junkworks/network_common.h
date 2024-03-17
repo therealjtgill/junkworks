@@ -25,12 +25,15 @@ extern "C"
 #elif PLATFORM == PLATFORM_MAC || \
       PLATFORM == PLATFORM_UNIX
 
-#include <sys/socket.h>
-#include <netinet/in.h>
 #include <fcntl.h>
+#include <netinet/in.h>
 #include <unistd.h>
+#include <sys/socket.h>
 
 #endif
+
+typedef struct sockaddr_in sockaddr_in;
+typedef struct sockaddr sockaddr;
 
 #ifdef __cplusplus
 }

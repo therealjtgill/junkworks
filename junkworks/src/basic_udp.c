@@ -1,14 +1,14 @@
-#include "junkworks/basic_udp.hpp"
+#include "junkworks/basic_udp.h"
 
 #include <stdio.h>
 
-bool initialize_sockets(void)
+int initialize_sockets(void)
 {
 #if PLATFORM == PLATFORM_WINDOWS
    WSADATA wsa_data;
    return WSAStartup( MAKEWORD(2,2), &wsa_data) == NO_ERROR;
 #else
-   return true;
+   return 1;
 #endif
 }
 
@@ -31,7 +31,7 @@ int create_socket(void)
    return handle;
 }
 
-bool bind_socket(const int handle, const unsigned int port)
+int bind_socket(const int handle, const unsigned int port)
 {
    // htons = host to network short. used to convert host byte order to
    // network byte order. required whenever you set integer members in socket
@@ -39,7 +39,7 @@ bool bind_socket(const int handle, const unsigned int port)
    // htonl = host to network long.
 
    unsigned int temp_port = port;
-   const uint16_t short_port = static_cast<unsigned short>(temp_port);
+   const uint16_t short_port = (unsigned short )temp_port;
 
    sockaddr_in address;
    address.sin_family = AF_INET;
@@ -55,7 +55,7 @@ bool bind_socket(const int handle, const unsigned int port)
    )
    {
       printf("Failed to bind socket\n");
-      return false;
+      return 0;
    }
 
    // set socket as non-blocking
@@ -69,7 +69,7 @@ bool bind_socket(const int handle, const unsigned int port)
    )
    {
       printf("Failed to set port as non-blocking\n");
-      return false;
+      return 0;
    }
 #elif
    DWORD non_blocking = 1;
@@ -80,11 +80,11 @@ bool bind_socket(const int handle, const unsigned int port)
    )
    {
       std::cout << "Failed to set port as non-blocking\n";
-      return false;
+      return 0;
    }
 #endif
 
-   return true;
+   return 1;
 }
 
 void close_socket(const int handle)
@@ -96,7 +96,7 @@ void close_socket(const int handle)
 #endif
 }
 
-bool send_packet(
+int send_packet(
    const int handle,
    const sockaddr_in to_address,
    const char * data,
@@ -120,7 +120,7 @@ bool send_packet(
    return (sent_bytes != packet_size);
 }
 
-bool receive_packet(
+int receive_packet(
    const int socket,
    const unsigned int max_packet_size,
    sockaddr_in * from_address,
