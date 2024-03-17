@@ -37,10 +37,14 @@ bool bind_socket(const int handle, const unsigned int port)
    // network byte order. required whenever you set integer members in socket
    // structures.
    // htonl = host to network long.
+
+   unsigned int temp_port = port;
+   const uint16_t short_port = static_cast<unsigned short>(temp_port);
+
    sockaddr_in address;
    address.sin_family = AF_INET;
    address.sin_addr.s_addr = INADDR_ANY;
-   address.sin_port = htons( static_cast<const unsigned short>(port));
+   address.sin_port = htons(short_port);
 
    if (
       bind(
