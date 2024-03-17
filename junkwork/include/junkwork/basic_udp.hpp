@@ -86,6 +86,8 @@ class UdpSocket
          char * data
       ) const;
 
+      bool bound(void) const;
+
    private:
       bool initialize_sockets(void);
 

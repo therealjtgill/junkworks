@@ -94,22 +94,28 @@ bool UdpSocket::try_send(
    const unsigned int data_len
 ) const
 {
-   const unsigned int ipadd = dest_ip.internet_address();
-   const unsigned int num_bytes_sent = sendto(
+   sockaddr_in send_address;
+   send_address.sin_family = AF_INET;
+   send_address.sin_addr.s_addr = dest_ip.internet_address();
+   send_address.sin_port = htons(dest_port);
+
+   const int num_bytes_sent = sendto(
       socket_handle_,
       data,
       data_len,
       0,
-      (sockaddr*)&ipadd,
+      (sockaddr*)&send_address,
       sizeof(sockaddr_in)
    );
 
-   if (num_bytes_sent != data_len)
+   const bool length_match = (static_cast<const unsigned int>(num_bytes_sent) != data_len);
+
+   if (length_match)
    {
-      std::cout << "Failed to send packet\n";
+      std::cout << "Failed to send packet, num bytes sent: " << num_bytes_sent << " num expected: " << data_len << "\n";
    }
 
-   return (num_bytes_sent != data_len);
+   return length_match;
 }
 
 int UdpSocket::try_receive(
@@ -132,7 +138,10 @@ int UdpSocket::try_receive(
    return num_bytes_received;
 }
 
-
+bool UdpSocket::bound(void) const
+{
+   return bound_;
+}
 
 bool initialize_sockets(void)
 {
