@@ -78,15 +78,6 @@ bool UdpSocket::bind_to(const unsigned int bind_port)
    return true;
 }
 
-// void UdpSocket::close(void)
-// {
-// #if PLATFORM == PLATFORM_MAC || PLATFORM == PLATFORM_UNIX
-//    close(socket_handle_);
-// #elif PLATFORM == PLATFORM_WINDOWS
-//    closesocket(socket_handle_);
-// #endif
-// }
-
 bool UdpSocket::try_send(
    const Ipv4Address dest_ip,
    const unsigned int dest_port,
@@ -108,7 +99,6 @@ bool UdpSocket::try_send(
       sizeof(sockaddr_in)
    );
 
-   // const bool length_match = (static_cast<const unsigned int>(num_bytes_sent) != data_len);
    const bool length_match = ((num_bytes_sent) != data_len);
 
    if (length_match)
