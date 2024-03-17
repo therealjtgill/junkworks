@@ -5,12 +5,12 @@ set(
 
 set(
    junkwork_headers
-   include/junkwork/basic_udp.hpp
+   include/junkworks/basic_udp.hpp
 )
 
 set(
    target
-   junkwork
+   junkworks
 )
 
 set(
