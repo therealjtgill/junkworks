@@ -1,4 +1,5 @@
 #ifndef SERVER_HEADER
+#define SERVER_HEADER
 
 #include "junkworks/udp_socket.hpp"
 
