@@ -2,10 +2,12 @@
 #define UDP_SOCKET_HEADER
 
 #include "junkworks/ipv4add.hpp"
+#include "junkworks/types.hpp"
+
+#include <vector>
 
 namespace junkworks
 {
-
    class UdpSocket
    {
       public:
@@ -27,6 +29,8 @@ namespace junkworks
             char * data
          ) const;
 
+         void receive_all(std::vector<raw_payload_t<128> > & payloads) const;
+
          bool bound(void) const;
 
       private:
@@ -42,7 +46,6 @@ namespace junkworks
 
          unsigned int bind_port_;
    };
-
 }
 
 #endif

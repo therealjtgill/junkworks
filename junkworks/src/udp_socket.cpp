@@ -59,8 +59,9 @@ namespace junkworks
    ) const
    {
       sockaddr_in from_address;
+      unsigned int from_address_size = 0;
+
       // any packet larger than 'max_packet_size' will be dropped
-      unsigned int from_address_size = sizeof(from_address);
       int num_bytes_received = recvfrom(
          socket_handle_,
          data,
@@ -71,6 +72,34 @@ namespace junkworks
       );
 
       return num_bytes_received;
+   }
+
+   void UdpSocket::receive_all(
+      std::vector<raw_payload_t<128> > & payloads
+   ) const
+   {
+      sockaddr_in from_address;
+      unsigned int from_address_size = 0;
+
+      raw_payload_t<128> temp_payload;
+      temp_payload.size = 1;
+
+      do
+      {
+         temp_payload.size = recvfrom(
+            socket_handle_,
+            temp_payload.data,
+            128,
+            0,
+            (sockaddr*)&from_address,
+            &from_address_size
+         );
+
+         if (temp_payload.size > 0)
+         {
+            payloads.push_back(temp_payload);
+         }
+      } while (temp_payload.size > 0);
    }
 
    bool UdpSocket::bound(void) const

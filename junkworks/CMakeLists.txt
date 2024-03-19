@@ -14,6 +14,7 @@ set(
    include/junkworks/ipv4add.hpp
    include/junkworks/network_common.h
    include/junkworks/server.hpp
+   include/junkworks/types.hpp
    include/junkworks/udp_socket.hpp
 )
 
