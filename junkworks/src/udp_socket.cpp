@@ -95,6 +95,8 @@ namespace junkworks
             &from_address_size
          );
 
+         temp_payload.ip = from_address.sin_addr.s_addr;
+
          if (temp_payload.size > 0)
          {
             payloads.push_back(temp_payload);
