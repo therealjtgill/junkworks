@@ -30,11 +30,6 @@ namespace junkworks
       packets_.clear();
       socket_.receive_all(packets_);
 
-      if (!packets_.empty())
-      {
-         std::cout << "got " << packets_.size() << " packets\n";
-      }
-
       if (handshake_in_progress_)
       {
          handshake();
@@ -64,7 +59,7 @@ namespace junkworks
             {
                handshake_in_progress_ = false;
                got_response = true;
-               std::cout << "connection rejected :(\n";
+               std::cout << "Connection to server rejected :(\n";
             }
             else if (
                (packet[0] == 1)
@@ -75,14 +70,13 @@ namespace junkworks
                for (int i = 0; i < 4; ++i)
                {
                   unsigned int uid_byte = static_cast<unsigned char>(packet[2 + i]);
-                  std::cout << "uid byte " << i << ": " << uid_byte << "\n";
                   uid_byte <<= ((3 - i) * 8);
                   uid_ += uid_byte;
                }
 
                handshake_in_progress_ = false;
                got_response = true;
-               std::cout << "connection accepted! uid: " << uid_ << "\n";
+               std::cout << "Connection accepted! UID: " << uid_ << "\n";
             }
          }
       }
@@ -93,7 +87,7 @@ namespace junkworks
 
          if (no_ack_counter_ > max_handshake_attempts_)
          {
-            std::cout << "Couldn't make connection\n";
+            std::cout << "Couldn't make connection to server\n";
             handshake_in_progress_ = false;
          }
 

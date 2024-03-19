@@ -15,11 +15,6 @@ namespace junkworks
       packets_.clear();
       socket_.receive_all(packets_);
 
-      if (!packets_.empty())
-      {
-         std::cout << "got " << packets_.size() << " packets\n";
-      }
-
       for (auto & packet : packets_)
       {
          const uint8_t packet_type = packet[0];
@@ -34,11 +29,11 @@ namespace junkworks
    {
       // oh my this is lazy
       unsigned int port = 8000 + static_cast<unsigned char>(payload.data[1]);
-      std::cout << "received port: " << port << "\n";
-      std::cout << "received ip: " << ntohl(payload.ip) << "\n";
+      std::cout << "Received handshake port: " << port << "\n";
+      std::cout << "Received handshake ip: " << ntohl(payload.ip) << "\n";
 
       ipv4add temp_ip(ntohl(payload.ip));
-      std::cout << "ip: ";
+      std::cout << "Handshake ip: ";
       for (int i = 0; i < 4; ++i)
       {
          std::cout << temp_ip[i];
@@ -56,22 +51,20 @@ namespace junkworks
          return;
       }
 
-      std::cout << "trying to accept handshake\n";
-
       client_connection_t conn(payload.ip, port);
 
       const auto connection_iter = connections_.find(conn);
 
       if (connection_iter != connections_.end())
       {
-         std::cout << "connection exists, sending client uid\n";
+         std::cout << "Connection to client exists, sending existing client UID\n";
          send_affirmative_handshake(
             payload.ip, port, connection_iter->second
          );
          return;
       }
 
-      std::cout << "new connection! sending client uid\n";
+      std::cout << "New client connection! sending new client UID\n";
       const unsigned int uid = connections_.size();
       connections_[conn] = uid;
       send_affirmative_handshake(payload.ip, port, uid);
