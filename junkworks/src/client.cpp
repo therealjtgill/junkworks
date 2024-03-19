@@ -85,21 +85,21 @@ namespace junkworks
                std::cout << "connection accepted! uid: " << uid_ << "\n";
             }
          }
+      }
 
-         if (!got_response)
+      if (!got_response)
+      {
+         no_ack_counter_ += 1;
+
+         if (no_ack_counter_ > max_handshake_attempts_)
          {
-            no_ack_counter_ += 1;
+            std::cout << "Couldn't make connection\n";
+            handshake_in_progress_ = false;
+         }
 
-            if (no_ack_counter_ > max_handshake_attempts_)
-            {
-               std::cout << "Couldn't make connection\n";
-               handshake_in_progress_ = false;
-            }
-
-            if (no_ack_counter_ % 5 == 0)
-            {
-               send_handshake_packet();
-            }
+         if (no_ack_counter_ % 5 == 0)
+         {
+            send_handshake_packet();
          }
       }
    }
