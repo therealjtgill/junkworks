@@ -50,11 +50,11 @@ namespace junkworks
    class UdpSocket
    {
       public:
+         UdpSocket(void) = delete;
+
          UdpSocket(const unsigned int bind_port);
 
          ~UdpSocket(void);
-
-         bool bind_to(const unsigned int bind_port);
 
          bool try_send(
             const Ipv4Address dest_ip,
@@ -71,6 +71,8 @@ namespace junkworks
          bool bound(void) const;
 
       private:
+         bool bind_to(const unsigned int bind_port);
+
          bool initialize_sockets(void);
 
          void shutdown_sockets(void);

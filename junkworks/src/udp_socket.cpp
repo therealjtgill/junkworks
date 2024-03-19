@@ -20,6 +20,62 @@ namespace junkworks
    #endif
    }
 
+   bool UdpSocket::try_send(
+      const Ipv4Address dest_ip,
+      const unsigned int dest_port,
+      const char * data,
+      const unsigned int data_len
+   ) const
+   {
+      sockaddr_in send_address;
+      send_address.sin_family = AF_INET;
+      send_address.sin_addr.s_addr = dest_ip.internet_address();
+      send_address.sin_port = htons(dest_port);
+
+      const unsigned int num_bytes_sent = sendto(
+         socket_handle_,
+         data,
+         data_len,
+         0,
+         (sockaddr*)&send_address,
+         sizeof(sockaddr_in)
+      );
+
+      const bool length_match = ((num_bytes_sent) != data_len);
+
+      if (length_match)
+      {
+         std::cout << "Failed to send packet, num bytes sent: " << num_bytes_sent << " num expected: " << data_len << "\n";
+      }
+
+      return length_match;
+   }
+
+   int UdpSocket::try_receive(
+      const unsigned int max_data_len,
+      char * data
+   ) const
+   {
+      sockaddr_in from_address;
+      // any packet larger than 'max_packet_size' will be dropped
+      unsigned int from_address_size = sizeof(from_address);
+      int num_bytes_received = recvfrom(
+         socket_handle_,
+         data,
+         max_data_len,
+         0,
+         (sockaddr*)&from_address,
+         &from_address_size
+      );
+
+      return num_bytes_received;
+   }
+
+   bool UdpSocket::bound(void) const
+   {
+      return bound_;
+   }
+
    bool UdpSocket::bind_to(const unsigned int bind_port)
    {
       if (socket_handle_ < 0)
@@ -79,62 +135,6 @@ namespace junkworks
    #endif
 
       return true;
-   }
-
-   bool UdpSocket::try_send(
-      const Ipv4Address dest_ip,
-      const unsigned int dest_port,
-      const char * data,
-      const unsigned int data_len
-   ) const
-   {
-      sockaddr_in send_address;
-      send_address.sin_family = AF_INET;
-      send_address.sin_addr.s_addr = dest_ip.internet_address();
-      send_address.sin_port = htons(dest_port);
-
-      const unsigned int num_bytes_sent = sendto(
-         socket_handle_,
-         data,
-         data_len,
-         0,
-         (sockaddr*)&send_address,
-         sizeof(sockaddr_in)
-      );
-
-      const bool length_match = ((num_bytes_sent) != data_len);
-
-      if (length_match)
-      {
-         std::cout << "Failed to send packet, num bytes sent: " << num_bytes_sent << " num expected: " << data_len << "\n";
-      }
-
-      return length_match;
-   }
-
-   int UdpSocket::try_receive(
-      const unsigned int max_data_len,
-      char * data
-   ) const
-   {
-      sockaddr_in from_address;
-      // any packet larger than 'max_packet_size' will be dropped
-      unsigned int from_address_size = sizeof(from_address);
-      int num_bytes_received = recvfrom(
-         socket_handle_,
-         data,
-         max_data_len,
-         0,
-         (sockaddr*)&from_address,
-         &from_address_size
-      );
-
-      return num_bytes_received;
-   }
-
-   bool UdpSocket::bound(void) const
-   {
-      return bound_;
    }
 
 }
