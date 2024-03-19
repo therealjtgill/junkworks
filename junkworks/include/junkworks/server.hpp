@@ -8,7 +8,9 @@ namespace junkworks
    {
       Server(void) = delete;
       Server(const unsigned int port);
-      
+
+      void update(void);
+
       private:
          UdpSocket socket_;
    };

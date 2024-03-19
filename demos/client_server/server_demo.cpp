@@ -9,23 +9,9 @@ int main(int argc, char ** argv)
       return 0;
    }
 
-   // // create the socket
-   // int handle = create_socket();
-
-   // // bind the socket
-   // unsigned int bind_port = atoi(argv[1]);
-
-   // std::cout << "port: " << bind_port << "\n";
-
-   // if (!bind_socket(handle, bind_port))
-   // {
-   //    return 1;
-   // }
-
-   sockaddr_in from_address;
    char packet_data[6];
 
-   UdpSocket socket(atoi(argv[1]));
+   junkworks::UdpSocket socket(atoi(argv[1]));
 
    if (!socket.bound())
    {
@@ -35,11 +21,6 @@ int main(int argc, char ** argv)
 
    while(true)
    {
-      // if (receive_packet(handle, 6, &from_address, packet_data))
-      // {
-      //    std::cout << "packet: " << packet_data << "\n";
-      // }
-
       if (socket.try_receive(6, packet_data) > 0)
       {
          std::cout << "packet: " << packet_data << "\n";

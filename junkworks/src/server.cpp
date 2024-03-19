@@ -4,7 +4,10 @@ namespace junkworks
 {
    Server::Server(const unsigned int port)
       : socket_(port)
-   { 
-      socket_.bi
+   { }
+
+   void Server::update(void)
+   {
+      
    }
 }

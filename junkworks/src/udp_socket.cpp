@@ -1,5 +1,7 @@
 #include "junkworks/udp_socket.hpp"
 
+#include "junkworks/network_common.h"
+
 #include <iostream>
 
 namespace junkworks
@@ -21,7 +23,7 @@ namespace junkworks
    }
 
    bool UdpSocket::try_send(
-      const Ipv4Address dest_ip,
+      const ipv4add dest_ip,
       const unsigned int dest_port,
       const char * data,
       const unsigned int data_len
