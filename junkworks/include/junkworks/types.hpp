@@ -53,10 +53,8 @@ namespace junkworks
          {
             return false;
          }
-         if (ip == that.ip)
-         {
-            return port < that.port;
-         }
+
+         return port < that.port;
       }
    };
 }
