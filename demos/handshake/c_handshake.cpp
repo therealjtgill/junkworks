@@ -1,6 +1,7 @@
 #include "junkworks/client.hpp"
 
 #include <chrono>
+#include <cstdlib>
 #include <thread>
 
 int main(int argc, char ** argv)
@@ -10,7 +11,12 @@ int main(int argc, char ** argv)
       return 1;
    }
 
-   junkworks::ipv4add server_ip(atoi(argv[1]), atoi(argv[2]), atoi(argv[3]), atoi(argv[4]));
+   junkworks::ipv4add server_ip(
+      std::atoi(argv[1]),
+      std::atoi(argv[2]),
+      std::atoi(argv[3]),
+      std::atoi(argv[4])
+   );
    junkworks::Client client(8222, server_ip, 8123);
 
    while(client.handshake_in_progress())
