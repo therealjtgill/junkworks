@@ -99,10 +99,10 @@ namespace junkworks
       char message[128];
       message[0] = 1;
       message[1] = 0;
-      message[2] = (uid << 24) >> 24;
-      message[3] = (uid << 16) >> 24;
-      message[4] = (uid << 8) >> 24;
-      message[5] = (uid << 0) >> 24;
+      message[2] = (uid << 0) >> 24;
+      message[3] = (uid << 8) >> 24;
+      message[4] = (uid << 16) >> 24;
+      message[5] = (uid << 24) >> 24;
 
       socket_.try_send(ipv4add(ntohl(addr)), port, message, 128);
    }
