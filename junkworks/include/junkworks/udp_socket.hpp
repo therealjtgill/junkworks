@@ -1,82 +1,56 @@
 #ifndef UDP_SOCKET_HEADER
 #define UDP_SOCKET_HEADER
 
-#include "junkworks/network_common.h"
+#include "junkworks/ipv4add.hpp"
+#include "junkworks/types.hpp"
 
-struct Ipv4Address
+#include <vector>
+
+namespace junkworks
 {
-   Ipv4Address(
-      const unsigned char o1,
-      const unsigned char o2,
-      const unsigned char o3,
-      const unsigned char o4
-   )
-      : ip{o1, o2, o3, o4}
-   { }
-
-   Ipv4Address(void) = delete;
-
-   // Returns a number that can be inserted directly into
-   // 'sockaddr_in::sin_addr::s_addr'
-   unsigned int internet_address(void) const
+   class UdpSocket
    {
-      unsigned int temp_ip = (
-         (ip[0] << 24)
-         | (ip[1] << 16)
-         | (ip[2] << 8)
-         | ip[3]
-      );
+      public:
+         UdpSocket(void) = delete;
 
-      return htonl(temp_ip);
-   }
+         UdpSocket(const unsigned int bind_port);
 
-   unsigned int & operator[](const unsigned int i)
-   {
-      return ip[i];
-   }
+         ~UdpSocket(void);
 
-   const unsigned int & operator[](const unsigned int i) const
-   {
-      return ip[i];
-   }
+         bool try_send(
+            const ipv4add dest_ip,
+            const unsigned int dest_port,
+            const char * data,
+            const unsigned int data_len
+         ) const;
 
-   private:
-      unsigned int ip[4];
-};
+         int try_receive(
+            const unsigned int max_data_len,
+            char * data
+         ) const;
 
-class UdpSocket
-{
-   public:
-      UdpSocket(const unsigned int bind_port);
+         void receive_all(std::vector<raw_payload_t<128> > & payloads) const;
 
-      ~UdpSocket(void);
+         bool bound(void) const;
 
-      bool bind_to(const unsigned int bind_port);
+         unsigned int bind_port(void) const
+         {
+            return bind_port_;
+         }
 
-      bool try_send(
-         const Ipv4Address dest_ip,
-         const unsigned int dest_port,
-         const char * data,
-         const unsigned int data_len
-      ) const;
+      private:
+         bool bind_to(const unsigned int bind_port);
 
-      int try_receive(
-         const unsigned int max_data_len,
-         char * data
-      ) const;
+         bool initialize_sockets(void);
 
-      bool bound(void) const;
+         void shutdown_sockets(void);
 
-   private:
-      bool initialize_sockets(void);
+         int socket_handle_;
 
-      void shutdown_sockets(void);
+         bool bound_;
 
-      int socket_handle_;
-
-      bool bound_;
-
-      unsigned int bind_port_;
-};
+         unsigned int bind_port_;
+   };
+}
 
 #endif

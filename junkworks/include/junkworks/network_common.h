@@ -25,10 +25,11 @@ extern "C"
 #elif PLATFORM == PLATFORM_MAC || \
       PLATFORM == PLATFORM_UNIX
 
+#include <arpa/inet.h>
 #include <fcntl.h>
 #include <netinet/in.h>
-#include <unistd.h>
 #include <sys/socket.h>
+#include <unistd.h>
 
 #endif
 

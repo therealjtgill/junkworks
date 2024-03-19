@@ -1,13 +1,20 @@
 set(
    junkwork_sources
    src/basic_udp.c
+   src/client.cpp
+   src/ipv4add.cpp
    src/udp_socket.cpp
+   src/server.cpp
 )
 
 set(
    junkwork_headers
    include/junkworks/basic_udp.h
+   include/junkworks/client.hpp
+   include/junkworks/ipv4add.hpp
    include/junkworks/network_common.h
+   include/junkworks/server.hpp
+   include/junkworks/types.hpp
    include/junkworks/udp_socket.hpp
 )
 
