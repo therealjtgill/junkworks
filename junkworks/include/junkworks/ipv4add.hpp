@@ -12,6 +12,8 @@ namespace junkworks
          const unsigned char o4
       );
 
+      ipv4add(const unsigned int ip);
+
       ipv4add(void) = delete;
 
       // Returns a number that can be inserted directly into
