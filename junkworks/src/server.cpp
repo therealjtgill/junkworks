@@ -54,6 +54,7 @@ namespace junkworks
          send_affirmative_handshake(
             payload.ip, port, connection_iter->second
          );
+         return;
       }
 
       std::cout << "new connection! sending client uid\n";
