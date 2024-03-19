@@ -79,7 +79,7 @@ namespace junkworks
    ) const
    {
       sockaddr_in from_address;
-      unsigned int from_address_size = 0;
+      unsigned int from_address_size = sizeof(from_address);
 
       raw_payload_t<128> temp_payload;
       temp_payload.size = 1;
