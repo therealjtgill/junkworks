@@ -39,12 +39,12 @@ namespace junkworks
 
       bool operator==(const client_connection_t & that) const
       {
-         return ip == that.ip && port == that.port;
+         return (ip == that.ip) && (port == that.port);
       };
 
       bool operator<(const client_connection_t & that) const
       {
-         return ip < that.ip && port < that.port;
+         return (ip < that.ip) && (port < that.port);
       }
    };
 }

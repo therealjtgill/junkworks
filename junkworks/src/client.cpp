@@ -71,9 +71,11 @@ namespace junkworks
                && (packet[1] == 0)
             )
             {
+               uid_ = 0;
                for (int i = 0; i < 4; ++i)
                {
-                  unsigned int uid_byte = packet[2 + i];
+                  unsigned int uid_byte = static_cast<unsigned char>(packet[2 + i]);
+                  std::cout << "uid byte " << i << ": " << uid_byte << "\n";
                   uid_byte <<= ((3 - i) * 8);
                   uid_ += uid_byte;
                }

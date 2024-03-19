@@ -2,12 +2,14 @@
 
 #include <chrono>
 #include <cstdlib>
+#include <iostream>
 #include <thread>
 
 int main(int argc, char ** argv)
 {
-   if (argc < 5)
+   if (argc < 6)
    {
+      std::cout << "server_ip0 server_ip1 server_ip2 server_ip3 client_port\n";
       return 1;
    }
 
@@ -17,7 +19,10 @@ int main(int argc, char ** argv)
       std::atoi(argv[3]),
       std::atoi(argv[4])
    );
-   junkworks::Client client(8222, server_ip, 8123);
+
+   const unsigned int bind_port = std::atoi(argv[5]);
+
+   junkworks::Client client(bind_port, server_ip, 8123);
 
    while(client.handshake_in_progress())
    {
