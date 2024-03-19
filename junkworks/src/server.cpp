@@ -33,7 +33,7 @@ namespace junkworks
    void Server::handle_handshake(const raw_payload_t<128> & payload)
    {
       // oh my this is lazy
-      unsigned int port = 8000 + payload.data[1];
+      unsigned int port = 8000 + static_cast<unsigned char>(payload.data[1]);
       std::cout << "received port: " << port << "\n";
       if (connections_.size() == 4)
       {
