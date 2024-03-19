@@ -34,14 +34,15 @@ namespace junkworks
    {
       // oh my this is lazy
       unsigned int port = 8000 + payload.data[1];
+      std::cout << "received port: " << port << "\n";
       if (connections_.size() == 4)
       {
-         send_negative_handshake(
-            payload.ip, port
-         );
+         send_negative_handshake(payload.ip, port);
 
          return;
       }
+
+      std::cout << "trying to accept handshake\n";
 
       client_connection_t conn(payload.ip, port);
 
@@ -49,11 +50,13 @@ namespace junkworks
 
       if (connection_iter != connections_.end())
       {
+         std::cout << "connection exists, sending client uid\n";
          send_affirmative_handshake(
             payload.ip, port, connection_iter->second
          );
       }
 
+      std::cout << "new connection! sending client uid\n";
       const unsigned int uid = connections_.size();
       connections_[conn] = uid;
       send_affirmative_handshake(payload.ip, port, uid);
