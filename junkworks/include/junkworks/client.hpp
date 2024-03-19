@@ -19,6 +19,11 @@ namespace junkworks
 
          void handshake(void);
 
+         bool handshake_in_progress(void) const
+         {
+            return handshake_in_progress;
+         }
+
       private:
          UdpSocket socket_;
 
