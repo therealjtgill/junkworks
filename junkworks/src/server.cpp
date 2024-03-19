@@ -35,6 +35,20 @@ namespace junkworks
       // oh my this is lazy
       unsigned int port = 8000 + static_cast<unsigned char>(payload.data[1]);
       std::cout << "received port: " << port << "\n";
+      std::cout << "received ip: " << ntohl(payload.ip) << "\n";
+
+      ipv4add temp_ip(ntohl(payload.ip));
+      std::cout << "ip: ";
+      for (int i = 0; i < 4; ++i)
+      {
+         std::cout << temp_ip[i];
+         if (i < 3)
+         {
+            std::cout << ".";
+         }
+      }
+      std::cout << "\n";
+
       if (connections_.size() == 4)
       {
          send_negative_handshake(payload.ip, port);
