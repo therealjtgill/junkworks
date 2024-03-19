@@ -33,6 +33,11 @@ namespace junkworks
 
          bool bound(void) const;
 
+         unsigned int bind_port(void) const
+         {
+            return bind_port_;
+         }
+
       private:
          bool bind_to(const unsigned int bind_port);
 

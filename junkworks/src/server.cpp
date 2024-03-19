@@ -15,7 +15,10 @@ namespace junkworks
       packets_.clear();
       socket_.receive_all(packets_);
 
-      std::cout << "got " << packets_.size() << " packets\n";
+      if (!packets_.empty())
+      {
+         std::cout << "got " << packets_.size() << " packets\n";
+      }
 
       for (auto & packet : packets_)
       {
