@@ -21,7 +21,7 @@ namespace junkworks
 
          bool handshake_in_progress(void) const
          {
-            return handshake_in_progress;
+            return handshake_in_progress_;
          }
 
       private:
