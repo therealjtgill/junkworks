@@ -31,7 +31,7 @@ int main(int argc, char ** argv)
 
    // send_packet(handle, send_address, "stuff", sizeof("stuff"));
 
-   UdpSocket socket(atoi(argv[1]));
+   junkworks::UdpSocket socket(atoi(argv[1]));
 
    if (!socket.bound())
    {
@@ -40,7 +40,7 @@ int main(int argc, char ** argv)
    }
 
    socket.try_send(
-      Ipv4Address(127, 0, 0, 1), 8123, "stuff", sizeof("stuff")
+      junkworks::Ipv4Address(127, 0, 0, 1), 8123, "stuff", sizeof("stuff")
    );
 
    return 0;
