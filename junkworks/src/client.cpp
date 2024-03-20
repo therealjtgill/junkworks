@@ -17,12 +17,40 @@ namespace junkworks
       , handshake_in_progress_(true)
       , first_handshake_sent_(false)
       , uid_(-1)
+      , behavior_running_(false)
+      , client_behavior_(nullptr)
    {
       if (bind_port < 8000)
       {
          std::cout << "bind port must be greater than 8000!\n";
          std::cout << "i'm not going to do anything about it, though. it's your foot\n";
       }
+   }
+
+   Client::Client(
+      const unsigned int bind_port,
+      const ipv4add server_ip,
+      const unsigned int server_port,
+      IClientBehavior & client_behavior
+   )
+      : socket_(bind_port)
+      , server_ip_(server_ip)
+      , server_port_(server_port)
+      , max_handshake_attempts_(16)
+      , no_ack_counter_(0)
+      , handshake_in_progress_(true)
+      , first_handshake_sent_(false)
+      , uid_(-1)
+      , behavior_running_(false)
+      , client_behavior_(&client_behavior)
+   {
+      if (bind_port < 8000)
+      {
+         std::cout << "bind port must be greater than 8000!\n";
+         std::cout << "i'm not going to do anything about it, though. it's your foot\n";
+      }
+
+      client_behavior_->set_connection(socket_, server_ip_, server_port_);
    }
 
    void Client::update(void)
@@ -33,6 +61,10 @@ namespace junkworks
       if (handshake_in_progress_)
       {
          handshake();
+      }
+      else if (!handshake_in_progress_ && behavior_running_)
+      {
+         client_behavior_->update(rx_packets_);
       }
    }
 
@@ -95,6 +127,10 @@ namespace junkworks
          {
             send_handshake_packet();
          }
+      }
+      else
+      {
+         behavior_running_ = true;
       }
    }
 

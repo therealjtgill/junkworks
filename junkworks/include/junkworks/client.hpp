@@ -1,6 +1,7 @@
 #ifndef CLIENT_HEADER
 #define CLIENT_HEADER
 
+#include "junkworks/client_behavior_interface.hpp"
 #include "junkworks/udp_socket.hpp"
 
 namespace junkworks
@@ -15,6 +16,13 @@ namespace junkworks
             const unsigned int server_port
          );
 
+         Client(
+            const unsigned int bind_port,
+            const ipv4add server_ip,
+            const unsigned int server_port,
+            IClientBehavior & client_behavior
+         );
+
          void update(void);
 
          void handshake(void);
@@ -22,6 +30,11 @@ namespace junkworks
          bool handshake_in_progress(void) const
          {
             return handshake_in_progress_;
+         }
+
+         bool behavior_running(void) const
+         {
+            return behavior_running_;
          }
 
       private:
@@ -41,7 +54,11 @@ namespace junkworks
 
          int uid_;
 
+         bool behavior_running_;
+
          std::vector<raw_rx_payload_t<128> > rx_packets_;
+
+         IClientBehavior * client_behavior_;
 
          void send_handshake_packet(void);
    };
