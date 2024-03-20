@@ -2,12 +2,22 @@
 
 namespace junkworks
 {
-   IClientBehavior::IClientBehavior(UdpSocket & socket)
-      : socket_(&socket)
+   IClientBehavior::IClientBehavior(UdpSocketWrapper & socket_wrapper)
+      : socket_wrapper_(socket_wrapper)
    { }
 
-   void IClientBehavior::send_packet(void)
+   void IClientBehavior::update(
+      const std::vector<raw_rx_payload_t<128> > & packets
+   )
    {
-      // socket_->try_send()
+      for (const auto & packet : packets)
+      {
+         process_packet(packet);
+      }
+   }
+
+   void IClientBehavior::send_packet(const raw_tx_payload_t<128> & tx_packet)
+   {
+      socket_wrapper_(tx_packet);
    }
 }
