@@ -13,7 +13,7 @@ namespace junkworks
       public:
          IClientBehavior(UdpSocket & socket);
 
-         void update(const std::vector<raw_payload_t<128> > & packets);
+         void update(const std::vector<raw_rx_payload_t<128> > & packets);
 
       protected:
          void send_packet(void);

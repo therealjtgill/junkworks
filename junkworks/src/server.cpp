@@ -30,9 +30,9 @@ namespace junkworks
       // oh my this is lazy
       unsigned int port = 8000 + static_cast<unsigned char>(payload.data[1]);
       std::cout << "Received handshake port: " << port << "\n";
-      std::cout << "Received handshake ip: " << ntohl(payload.ip) << "\n";
+      std::cout << "Received handshake ip: " << ntohl(payload.sender_ip) << "\n";
 
-      ipv4add temp_ip(ntohl(payload.ip));
+      ipv4add temp_ip(ntohl(payload.sender_ip));
       std::cout << "Handshake ip: ";
       for (int i = 0; i < 4; ++i)
       {
@@ -46,12 +46,12 @@ namespace junkworks
 
       if (connections_.size() == 4)
       {
-         send_negative_handshake(payload.ip, port);
+         send_negative_handshake(payload.sender_ip, port);
 
          return;
       }
 
-      client_connection_t conn(payload.ip, port);
+      client_connection_t conn(payload.sender_ip, port);
 
       const auto connection_iter = connections_.find(conn);
 
@@ -59,7 +59,7 @@ namespace junkworks
       {
          std::cout << "Connection to client exists, sending existing client UID\n";
          send_affirmative_handshake(
-            payload.ip, port, connection_iter->second
+            payload.sender_ip, port, connection_iter->second
          );
          return;
       }
@@ -67,7 +67,7 @@ namespace junkworks
       std::cout << "New client connection! sending new client UID\n";
       const unsigned int uid = connections_.size();
       connections_[conn] = uid;
-      send_affirmative_handshake(payload.ip, port, uid);
+      send_affirmative_handshake(payload.sender_ip, port, uid);
    }
 
    void Server::send_negative_handshake(

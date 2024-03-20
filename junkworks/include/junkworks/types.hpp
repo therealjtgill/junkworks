@@ -8,7 +8,7 @@ namespace junkworks
    {
       char data[Size_T];
       int size;
-      unsigned int ip;
+      unsigned int sender_ip;
 
       char & operator[](int i)
       {
