@@ -1,5 +1,7 @@
 #include "junkworks/udp_socket_wrapper.hpp"
 
+#include <iostream>
+
 namespace junkworks
 {
    UdpSocketWrapper::UdpSocketWrapper(
@@ -7,10 +9,29 @@ namespace junkworks
       const ipv4add dest_ip,
       const unsigned int dest_port
    )
-      : socket_(&socket)
+      : initialized_(true)
+      , socket_(&socket)
       , dest_ip_(dest_ip)
       , dest_port_(dest_port)
    { }
+
+   void UdpSocketWrapper::set_connection(
+      UdpSocket & socket,
+      const ipv4add dest_ip,
+      const unsigned int dest_port
+   )
+   {
+      if (initialized_)
+      {
+         std::cout << "udp socket wrapper has already been initialized\n";
+         return;
+      }
+
+      initialized_ = true;
+      socket_ = &socket;
+      dest_ip_ = dest_ip;
+      dest_port_ = dest_port;
+   }
 
    void UdpSocketWrapper::operator()(const raw_tx_payload_t<128> & tx_packet)
    {

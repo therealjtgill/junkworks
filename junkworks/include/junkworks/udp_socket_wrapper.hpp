@@ -11,7 +11,20 @@ namespace junkworks
    class UdpSocketWrapper
    {
       public:
+         UdpSocketWrapper(void)
+            : initialized_(false)
+            , socket_(nullptr)
+            , dest_ip_(0)
+            , dest_port_(0)
+         { }
+
          UdpSocketWrapper(
+            UdpSocket & socket,
+            const ipv4add dest_ip,
+            const unsigned int dest_port
+         );
+
+         void set_connection(
             UdpSocket & socket,
             const ipv4add dest_ip,
             const unsigned int dest_port
@@ -22,6 +35,8 @@ namespace junkworks
          void send_packet(const raw_tx_payload_t<128> & tx_packet);
 
       private:
+         bool initialized_;
+
          UdpSocket * socket_;
 
          ipv4add dest_ip_;
