@@ -6,6 +6,15 @@ namespace junkworks
       : socket_wrapper_(socket_wrapper)
    { }
 
+   void IClientBehavior::set_connection(
+      UdpSocket & socket,
+      const ipv4add dest_ip,
+      const unsigned int dest_port
+   )
+   {
+      socket_wrapper_.set_connection(socket, dest_ip, dest_port);
+   }
+
    void IClientBehavior::update(
       const std::vector<raw_rx_payload_t<128> > & packets
    )

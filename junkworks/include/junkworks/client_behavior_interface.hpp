@@ -11,7 +11,16 @@ namespace junkworks
    class IClientBehavior
    {
       public:
+         IClientBehavior(void)
+         { }
+
          IClientBehavior(UdpSocketWrapper & socket_wrapper);
+
+         void set_connection(
+            UdpSocket & socket,
+            const ipv4add dest_ip,
+            const unsigned int dest_port
+         );
 
          void update(const std::vector<raw_rx_payload_t<128> > & packets);
 

@@ -13,6 +13,12 @@ namespace junkworks
       public:
          IServerBehavior(UdpSocketWrapper & socket_wrapper);
 
+         void set_connection(
+            UdpSocket & socket,
+            const ipv4add dest_ip,
+            const unsigned int dest_port
+         );
+
          void update(const std::vector<raw_rx_payload_t<128> > & packets);
 
          virtual void process_packet(const raw_rx_payload_t<128> & packet) = 0;
