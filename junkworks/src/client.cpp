@@ -27,8 +27,8 @@ namespace junkworks
 
    void Client::update(void)
    {
-      packets_.clear();
-      socket_.receive_all(packets_);
+      rx_packets_.clear();
+      socket_.receive_all(rx_packets_);
 
       if (handshake_in_progress_)
       {
@@ -45,7 +45,7 @@ namespace junkworks
       }
 
       bool got_response = false;
-      for (auto & packet : packets_)
+      for (auto & packet : rx_packets_)
       {
          const uint8_t packet_type = packet[0];
          if (packet_type == 1)

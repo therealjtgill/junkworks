@@ -29,7 +29,7 @@ namespace junkworks
             char * data
          ) const;
 
-         void receive_all(std::vector<raw_payload_t<128> > & payloads) const;
+         void receive_all(std::vector<raw_rx_payload_t<128> > & payloads) const;
 
          bool bound(void) const;
 

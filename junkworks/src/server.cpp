@@ -12,10 +12,10 @@ namespace junkworks
 
    void Server::update(void)
    {
-      packets_.clear();
-      socket_.receive_all(packets_);
+      rx_packets_.clear();
+      socket_.receive_all(rx_packets_);
 
-      for (auto & packet : packets_)
+      for (auto & packet : rx_packets_)
       {
          const uint8_t packet_type = packet[0];
          if (packet_type == 1)
@@ -25,7 +25,7 @@ namespace junkworks
       }
    }
 
-   void Server::handle_handshake(const raw_payload_t<128> & payload)
+   void Server::handle_handshake(const raw_rx_payload_t<128> & payload)
    {
       // oh my this is lazy
       unsigned int port = 8000 + static_cast<unsigned char>(payload.data[1]);

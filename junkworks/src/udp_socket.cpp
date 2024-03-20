@@ -75,13 +75,13 @@ namespace junkworks
    }
 
    void UdpSocket::receive_all(
-      std::vector<raw_payload_t<128> > & payloads
+      std::vector<raw_rx_payload_t<128> > & payloads
    ) const
    {
       sockaddr_in from_address;
       unsigned int from_address_size = sizeof(from_address);
 
-      raw_payload_t<128> temp_payload;
+      raw_rx_payload_t<128> temp_payload;
       temp_payload.size = 1;
 
       do

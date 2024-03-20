@@ -41,7 +41,7 @@ namespace junkworks
 
          int uid_;
 
-         std::vector<raw_payload_t<128> > packets_;
+         std::vector<raw_rx_payload_t<128> > rx_packets_;
 
          void send_handshake_packet(void);
    };

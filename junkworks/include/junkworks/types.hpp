@@ -4,11 +4,28 @@
 namespace junkworks
 {
    template <int Size_T>
-   struct raw_payload_t
+   struct raw_rx_payload_t
    {
       char data[Size_T];
       int size;
       unsigned int ip;
+
+      char & operator[](int i)
+      {
+         return data[i];
+      }
+
+      const char & operator[](int i) const
+      {
+         return data[i];
+      }
+   };
+
+   template <int Size_T>
+   struct raw_tx_payload_t
+   {
+      char data[Size_T];
+      int size;
 
       char & operator[](int i)
       {

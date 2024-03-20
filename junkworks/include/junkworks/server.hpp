@@ -18,12 +18,12 @@ namespace junkworks
 
          void update(void);
 
-         void handle_handshake(const raw_payload_t<128> & payload);
+         void handle_handshake(const raw_rx_payload_t<128> & payload);
 
       private:
          UdpSocket socket_;
 
-         std::vector<raw_payload_t<128> > packets_;
+         std::vector<raw_rx_payload_t<128> > rx_packets_;
 
          std::map<client_connection_t, unsigned int> connections_;
 
