@@ -25,6 +25,10 @@ namespace junkworks
 
          std::vector<raw_rx_payload_t<128> > rx_packets_;
 
+         std::vector<raw_rx_payload_t<128> > rx_handshake_packets_;
+
+         std::vector<raw_rx_payload_t<128> > rx_behavior_packets_;
+
          std::map<client_connection_t, unsigned int> connections_;
 
          void send_negative_handshake(

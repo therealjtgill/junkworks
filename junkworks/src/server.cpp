@@ -15,13 +15,30 @@ namespace junkworks
       rx_packets_.clear();
       socket_.receive_all(rx_packets_);
 
+      rx_handshake_packets_.clear();
+      rx_behavior_packets_.clear();
+
       for (auto & packet : rx_packets_)
       {
          const uint8_t packet_type = packet[0];
          if (packet_type == 1)
          {
-            handle_handshake(packet);
+            rx_handshake_packets_.push_back(packet);
          }
+         else
+         {
+            rx_behavior_packets_.push_back(packet);
+         }
+      }
+
+      for (auto & handshake_packet : rx_handshake_packets_)
+      {
+         handle_handshake(handshake_packet);
+      }
+
+      for (auto & behavior_packet : rx_behavior_packets_)
+      {
+         // or just give these to the behavior wholesale
       }
    }
 

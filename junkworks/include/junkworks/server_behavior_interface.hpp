@@ -19,6 +19,7 @@ namespace junkworks
             const unsigned int dest_port
          );
 
+         // should receive a map of client UID to packet payload
          void update(const std::vector<raw_rx_payload_t<128> > & packets);
 
          virtual void process_packet(const raw_rx_payload_t<128> & packet) = 0;
@@ -26,6 +27,7 @@ namespace junkworks
          virtual std::vector<unsigned char> supported_packet_types(void) const = 0;
 
       protected:
+         // should have to send to a particular client UID
          void send_packet(const raw_tx_payload_t<128> & tx_packet);
 
       private:
