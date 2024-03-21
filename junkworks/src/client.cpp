@@ -107,6 +107,20 @@ namespace junkworks
       }
    }
 
+   std::vector<byte_data_t<128> > Client::get_rx_bytes(void) const
+   {
+      std::vector<byte_data_t<128> > bytes_copy;
+      bytes_copy.reserve(rx_bytes_.size());
+      bytes_copy = rx_bytes_;
+
+      return bytes_copy;
+   }
+
+   void Client::set_tx_bytes(const std::vector<byte_data_t<128> > & tx_bytes)
+   {
+      tx_bytes_ = tx_bytes;
+   }
+
    void Client::send_handshake_packet(void)
    {
       char data[128];

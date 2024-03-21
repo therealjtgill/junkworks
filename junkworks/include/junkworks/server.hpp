@@ -22,7 +22,7 @@ namespace junkworks
 
          std::vector<byte_data_t<128> > get_client_rx_bytes(
             const unsigned int uid
-         );
+         ) const;
 
          void set_client_tx_bytes(
             const unsigned int uid, const std::vector<byte_data_t<128> > & tx_bytes

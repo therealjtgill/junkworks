@@ -87,6 +87,43 @@ namespace junkworks
       send_affirmative_handshake(payload.sender_ip, port, uid);
    }
 
+   std::vector<byte_data_t<128> > Server::get_client_rx_bytes(
+      const unsigned int uid
+   ) const
+   {
+      std::vector<byte_data_t<128> > client_bytes_copy;
+      auto client_rx_bytes_iter = uid_to_rx_bytes_.find(uid);
+      if (client_rx_bytes_iter == uid_to_rx_bytes_.end())
+      {
+         std::cout << "Trying to grab data from non-existent UID, " << uid << "\n";
+         return client_bytes_copy;
+      }
+
+      if (client_rx_bytes_iter->second.size() == 0)
+      {
+         return client_bytes_copy;
+      }
+
+      client_bytes_copy.reserve(client_rx_bytes_iter->second.size());
+      client_bytes_copy = client_rx_bytes_iter->second;
+
+      return client_bytes_copy;
+   }
+
+   void Server::set_client_tx_bytes(
+      const unsigned int uid, const std::vector<byte_data_t<128> > & tx_bytes
+   )
+   {
+      auto client_tx_bytes_iter = uid_to_tx_bytes_.find(uid);
+      if (client_tx_bytes_iter == uid_to_tx_bytes_.end())
+      {
+         std::cout << "Trying to send data to non-existent UID, " << uid << "\n";
+         return;
+      }
+
+      client_tx_bytes_iter->second = tx_bytes;
+   }
+
    void Server::send_negative_handshake(
       const unsigned int addr, const unsigned int port
    )
