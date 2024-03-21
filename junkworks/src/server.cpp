@@ -128,7 +128,7 @@ namespace junkworks
       const unsigned int addr, const unsigned int port
    )
    {
-      char message[128];
+      unsigned char message[128];
       message[0] = 1;
       message[1] = 0;
       message[2] = 123;
@@ -143,7 +143,7 @@ namespace junkworks
       const unsigned int uid
    )
    {
-      char message[128];
+      unsigned char message[128];
       message[0] = 1;
       message[1] = 0;
       message[2] = (uid << 0) >> 24;

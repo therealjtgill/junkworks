@@ -17,8 +17,10 @@ int main(int argc, char ** argv)
       return 1;
    }
 
+   const unsigned char greeting[] = "stuff";
+
    socket.try_send(
-      junkworks::ipv4add(127, 0, 0, 1), 8123, "stuff", sizeof("stuff")
+      junkworks::ipv4add(127, 0, 0, 1), 8123, greeting, sizeof(greeting)
    );
 
    return 0;

@@ -20,7 +20,7 @@ namespace junkworks
          bool try_send(
             const ipv4add dest_ip,
             const unsigned int dest_port,
-            const char * data,
+            const unsigned char * data,
             const unsigned int data_len
          ) const;
 

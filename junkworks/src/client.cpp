@@ -123,7 +123,7 @@ namespace junkworks
 
    void Client::send_handshake_packet(void)
    {
-      char data[128];
+      unsigned char data[128];
       data[0] = 1;
       data[1] = socket_.bind_port() - 8000;
       socket_.try_send(server_ip_, server_port_, data, 128);

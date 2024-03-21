@@ -12,12 +12,12 @@ namespace junkworks
       int size;
       unsigned int sender_ip;
 
-      char & operator[](int i)
+      unsigned char & operator[](int i)
       {
          return data[i];
       }
 
-      const char & operator[](int i) const
+      const unsigned char & operator[](int i) const
       {
          return data[i];
       }
@@ -29,12 +29,12 @@ namespace junkworks
       unsigned char data[Size_T];
       int size;
 
-      char & operator[](int i)
+      unsigned char & operator[](int i)
       {
          return data[i];
       }
 
-      const char & operator[](int i) const
+      const unsigned char & operator[](int i) const
       {
          return data[i];
       }
@@ -46,12 +46,12 @@ namespace junkworks
       unsigned char data[Size_T];
       int size;
 
-      char & operator[](int i)
+      unsigned char & operator[](int i)
       {
          return data[i];
       }
 
-      const char & operator[](int i) const
+      const unsigned char & operator[](int i) const
       {
          return data[i];
       }
