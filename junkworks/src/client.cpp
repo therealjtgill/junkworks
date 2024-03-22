@@ -37,7 +37,22 @@ namespace junkworks
       }
       else if (!handshake_in_progress_ && behavior_running_)
       {
-         // put data into queues
+         rx_bytes_.clear();
+         byte_data_t<128> temp_byte_data;
+         for (const auto & rx_packet : rx_packets_)
+         {
+            temp_byte_data = rx_packet;
+            rx_bytes_.push_back(temp_byte_data);
+         }
+
+         for (const auto & tx_msg : tx_bytes_)
+         {
+            socket_.try_send(
+               server_ip_, server_port_, tx_msg.data, 128
+            );
+         }
+
+         tx_bytes_.clear();
       }
    }
 
