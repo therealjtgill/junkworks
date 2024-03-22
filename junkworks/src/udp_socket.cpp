@@ -59,7 +59,7 @@ namespace junkworks
    ) const
    {
       sockaddr_in from_address;
-      unsigned int from_address_size = 0;
+      int from_address_size = 0;
 
       // any packet larger than 'max_packet_size' will be dropped
       int num_bytes_received = recvfrom(
@@ -79,7 +79,7 @@ namespace junkworks
    ) const
    {
       sockaddr_in from_address;
-      unsigned int from_address_size = sizeof(from_address);
+      int from_address_size = sizeof(from_address);
 
       raw_payload_t<128> temp_payload;
       temp_payload.size = 1;
@@ -113,6 +113,7 @@ namespace junkworks
    {
       if (socket_handle_ < 0)
       {
+         std::cout << "bad socket handle: " << socket_handle_ << "\n";
          return false;
       }
 
@@ -142,7 +143,7 @@ namespace junkworks
       }
 
       // set socket as non-blocking
-   #if PLATFORM == PLATFORM_MAC || \
+#if PLATFORM == PLATFORM_MAC || \
       PLATFORM == PLATFORM_UNIX
       int non_blocking = 1;
       if (
@@ -154,18 +155,18 @@ namespace junkworks
          std::cout << "Failed to set port as non-blocking\n";
          return false;
       }
-   #elif
+#elif PLATFORM == PLATFORM_WINDOWS
       DWORD non_blocking = 1;
       if (
-         isoctlsocket(
-            handle, FIONBIO, &non_blocking
+         ioctlsocket(
+            socket_handle_, FIONBIO, &non_blocking
          ) != 0
       )
       {
          std::cout << "Failed to set port as non-blocking\n";
          return false;
       }
-   #endif
+#endif
 
       return true;
    }
