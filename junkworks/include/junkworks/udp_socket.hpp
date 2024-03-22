@@ -45,8 +45,6 @@ namespace junkworks
       private:
          bool bind_to(const unsigned int bind_port);
 
-         bool initialize_sockets(void);
-
          void shutdown_sockets(void);
 
          int socket_handle_;

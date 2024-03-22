@@ -1,5 +1,6 @@
 #include "junkworks/udp_socket.hpp"
 
+#include "junkworks/basic_udp.h"
 #include "junkworks/network_common.h"
 
 #include <iostream>
