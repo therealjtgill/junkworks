@@ -19,7 +19,7 @@ add_compile_definitions(
 set( LIBRARY_OUTPUT_PATH "${CMAKE_BINARY_DIR}/bin" )
 set( EXECUTABLE_OUTPUT_PATH "${CMAKE_BINARY_DIR}/bin" )
 
-add_subdirectory( demos/client_server )
+add_subdirectory( demos/client_server_socket )
 add_subdirectory( demos/handshake )
 
 add_subdirectory( junkworks )
