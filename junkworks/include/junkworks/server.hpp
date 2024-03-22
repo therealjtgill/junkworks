@@ -49,6 +49,12 @@ namespace junkworks
             std::vector<byte_data_t<128> >
          > uid_to_tx_bytes_;
 
+         const unsigned int invalid_uid_;
+
+         unsigned int get_uid(const raw_rx_payload_t<128> & packet) const;
+
+         client_connection_t get_connection(const unsigned int uid) const;
+
          void send_negative_handshake(
             const unsigned int addr, const unsigned int port
          );

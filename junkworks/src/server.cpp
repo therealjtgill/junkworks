@@ -8,6 +8,7 @@ namespace junkworks
 {
    Server::Server(const unsigned int port)
       : socket_(port)
+      , invalid_uid_(-1)
    { }
 
    void Server::update(void)
@@ -36,16 +37,58 @@ namespace junkworks
          handle_handshake(handshake_packet);
       }
 
+      // Clear out the old stuff that was received
+      for (auto & uid_to_rx : uid_to_rx_bytes_)
+      {
+         uid_to_rx.second.clear();
+      }
+
+      // Add the new stuff
       for (auto & behavior_packet : rx_behavior_packets_)
       {
-         // or just give these to the behavior wholesale
+         byte_data_t<128> temp_data;
+         const unsigned int uid = get_uid(behavior_packet);
+         if (uid == invalid_uid_)
+         {
+            continue;
+         }
+
+         temp_data = behavior_packet;
+
+         uid_to_rx_bytes_.at(uid).push_back(temp_data);
+      }
+
+      // Send any new stuff
+      for (const auto & uid_to_tx: uid_to_tx_bytes_)
+      {
+         const client_connection_t connection = get_connection(
+            uid_to_tx.first
+         );
+
+         if (connection.ip == 0)
+         {
+            continue;
+         }
+
+         for (const auto & byte_pack : uid_to_tx.second)
+         {
+            socket_.try_send(
+               connection.ip, connection.port, byte_pack.data, byte_pack.size
+            );
+         }
+      }
+
+      // Delete what you just sent
+      for (auto & uid_to_tx : uid_to_tx_bytes_)
+      {
+         uid_to_tx.second.clear();
       }
    }
 
    void Server::handle_handshake(const raw_rx_payload_t<128> & payload)
    {
       // oh my this is lazy
-      unsigned int port = 8000 + static_cast<unsigned char>(payload.data[1]);
+      unsigned int port = 8000 + static_cast<unsigned char>(payload[1]);
       std::cout << "Received handshake port: " << port << "\n";
       std::cout << "Received handshake ip: " << ntohl(payload.sender_ip) << "\n";
 
@@ -81,9 +124,13 @@ namespace junkworks
          return;
       }
 
-      std::cout << "New client connection! sending new client UID\n";
+      std::cout << "New client connection! Sending new client UID\n";
       const unsigned int uid = connections_.size();
       connections_[conn] = uid;
+
+      uid_to_rx_bytes_[uid];
+      uid_to_tx_bytes_[uid];
+
       send_affirmative_handshake(payload.sender_ip, port, uid);
    }
 
@@ -122,6 +169,36 @@ namespace junkworks
       }
 
       client_tx_bytes_iter->second = tx_bytes;
+   }
+
+   unsigned int Server::get_uid(const raw_rx_payload_t<128> & packet) const
+   {
+      unsigned int port = 8000 + static_cast<unsigned char>(packet[1]);
+      client_connection_t temp_connection(packet.sender_ip, port);
+
+      const auto connect_uid_iter = connections_.find(temp_connection);
+
+      if (connect_uid_iter == connections_.end())
+      {
+         return invalid_uid_;
+      }
+
+      return connect_uid_iter->second;
+   }
+
+   client_connection_t Server::get_connection(const unsigned int uid) const
+   {
+      // ooooo I can do better than this
+      for (const auto & connect_uid : connections_)
+      {
+         if (connect_uid.second == uid)
+         {
+            return connect_uid.first;
+         }
+      }
+
+      client_connection_t nonexistent_connection(0, 0);
+      return nonexistent_connection;
    }
 
    void Server::send_negative_handshake(
