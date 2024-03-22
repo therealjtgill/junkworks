@@ -10,7 +10,7 @@ int bytes_to_int(const junkworks::byte_data_t<128> & bytes)
    for (int i = 0; i < 4; ++i)
    {
       int temp = bytes[2 + i];
-      val += temp << (3 - i);
+      val += temp << (i);
    }
 
    return val;
@@ -26,10 +26,10 @@ int main(void)
 
       const auto uids = server.get_uids();
 
-      if (!uids.empty())
-      {
-         std::cout << "there are " << uids.size() << " simultaneous server connections\n";
-      }
+      // if (!uids.empty())
+      // {
+      //    std::cout << "there are " << uids.size() << " simultaneous server connections\n";
+      // }
 
       for (const auto uid : uids)
       {
