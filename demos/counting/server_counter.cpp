@@ -10,7 +10,7 @@ int bytes_to_int(const junkworks::byte_data_t<128> & bytes)
    for (int i = 0; i < 4; ++i)
    {
       int temp = bytes[2 + i];
-      val += temp << (i);
+      val += temp << (i * 8);
    }
 
    return val;

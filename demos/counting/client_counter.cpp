@@ -54,7 +54,7 @@ int main(int argc, char ** argv)
          ++i;
       }
 
-      std::this_thread::sleep_for(std::chrono::milliseconds(100));
+      std::this_thread::sleep_for(std::chrono::milliseconds(20));
    }
 
    return 0;
