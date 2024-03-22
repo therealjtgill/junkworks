@@ -24,6 +24,13 @@ namespace junkworks
             const unsigned int data_len
          ) const;
 
+         bool UdpSocket::try_send(
+            const unsigned int dest_internet_address,
+            const unsigned int dest_port,
+            const unsigned char * data,
+            const unsigned int data_len
+         ) const;
+
          int try_receive(
             const unsigned int max_data_len,
             char * data
