@@ -171,6 +171,17 @@ namespace junkworks
       client_tx_bytes_iter->second = tx_bytes;
    }
 
+   std::vector<unsigned int> Server::get_uids(void) const
+   {
+      std::vector<unsigned int> uids;
+      for (const auto & conn_uid : connections_)
+      {
+         uids.push_back(conn_uid.second);
+      }
+
+      return uids;
+   }
+
    unsigned int Server::get_uid(const raw_rx_payload_t<128> & packet) const
    {
       unsigned int port = 8000 + static_cast<unsigned char>(packet[1]);

@@ -28,6 +28,8 @@ namespace junkworks
             const unsigned int uid, const std::vector<byte_data_t<128> > & tx_bytes
          );
 
+         std::vector<unsigned int> get_uids(void) const;
+
       private:
          UdpSocket socket_;
 
