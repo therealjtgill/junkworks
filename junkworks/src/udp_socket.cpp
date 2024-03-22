@@ -6,12 +6,34 @@
 
 namespace junkworks
 {
+   bool UdpSocket::sockets_initialized = false;
+
+   bool UdpSocket::socket_initialization_successful = false;
 
    UdpSocket::UdpSocket(const unsigned int bind_port)
-      : socket_handle_(socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP))
-      , bound_(bind_to(bind_port))
-      , bind_port_(bound_ ? bind_port : 0)
-   { }
+      // : socket_handle_(socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP))
+      // , bound_(bind_to(bind_port))
+      // , bind_port_(bound_ ? bind_port : 0)
+   {
+      bound_ = false;
+
+      if (!sockets_initialized)
+      {
+         socket_initialization_successful = initialize_sockets();
+         sockets_initialized = true;
+      }
+
+      if (!socket_initialization_successful)
+      {
+         socket_handle_ = -1;
+         bind_port_ = 0;
+         return;
+      }
+
+      socket_handle_ = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+      bound_ = bind_to(bind_port);
+      bind_port_ = bound_ ? bind_port : 0;
+   }
 
    UdpSocket::~UdpSocket(void)
    {

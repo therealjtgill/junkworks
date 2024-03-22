@@ -11,6 +11,8 @@ namespace junkworks
    class UdpSocket
    {
       public:
+         static bool sockets_initialized;
+
          UdpSocket(void) = delete;
 
          UdpSocket(const unsigned int bind_port);
