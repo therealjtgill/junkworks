@@ -13,6 +13,8 @@ namespace junkworks
       public:
          static bool sockets_initialized;
 
+         static bool socket_initialization_successful;
+
          UdpSocket(void) = delete;
 
          UdpSocket(const unsigned int bind_port);
