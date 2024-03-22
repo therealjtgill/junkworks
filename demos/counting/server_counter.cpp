@@ -4,6 +4,18 @@
 #include <iostream>
 #include <thread>
 
+int bytes_to_int(const junkworks::byte_data_t<128> & bytes)
+{
+   int val;
+   for (int i = 0; i < 4; ++i)
+   {
+      int temp = bytes[2 + i];
+      val += temp << (3 - i);
+   }
+
+   return val;
+}
+
 int main(void)
 {
    junkworks::Server server(8123);
@@ -27,7 +39,7 @@ int main(void)
             std::cout << "got " << rx_data.size() << " packets from uid " << uid << "\n";
             for (const auto & rx_bytes : rx_data)
             {
-               std::cout << "\t" << rx_bytes[2] << " " << rx_bytes[3] << " " << rx_bytes[4] << " " << rx_bytes[5] << "\n";
+               std::cout << "\t" << bytes_to_int(rx_bytes) << "\n";
             }
          }
       }

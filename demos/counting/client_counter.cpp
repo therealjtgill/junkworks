@@ -10,9 +10,9 @@ void counter_to_bytes(
 )
 {
    bytes[2] = i & (255);
-   bytes[3] = (i & (255 << 8) >> 8);
-   bytes[4] = (i & (255 << 16) >> 16);
-   bytes[5] = (i & (255 << 24) >> 24);
+   bytes[3] = (i & (255 << 8)) >> 8;
+   bytes[4] = (i & (255 << 16)) >> 16;
+   bytes[5] = (i & (255 << 24)) >> 24;
 }
 
 int main(int argc, char ** argv)
