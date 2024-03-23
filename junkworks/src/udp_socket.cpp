@@ -127,8 +127,6 @@ namespace junkworks
       int from_address_size = 0;
 #endif
 
-      // int from_address_size = sizeof(from_address);
-
       raw_payload_t<128> temp_payload;
       temp_payload.size = 1;
 
