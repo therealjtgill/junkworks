@@ -78,9 +78,6 @@ namespace junkworks
                got_response = true;
                std::cout << "Connection accepted! UID: " << uid_ << "\n";
             }
-            {
-               std::cout << "Rogue packet\n";
-            }
          }
          else
          {
