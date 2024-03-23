@@ -61,10 +61,10 @@ namespace junkworks
       // Send any new stuff
       for (const auto & uid_to_tx: uid_to_tx_bytes_)
       {
-         if (!uid_to_tx.second.empty())
-         {
-            std::cout << "num things to send: " << uid_to_tx.second.size() << "\n";
-         }
+         // if (!uid_to_tx.second.empty())
+         // {
+         //    std::cout << "num things to send: " << uid_to_tx.second.size() << "\n";
+         // }
 
          const client_connection_t connection = get_connection(
             uid_to_tx.first
@@ -78,6 +78,7 @@ namespace junkworks
 
          for (const auto & byte_pack : uid_to_tx.second)
          {
+            // std::cout << "sending packet to " << connection.ip << " port: " << connection.port << "\n";
             socket_.try_send(
                connection.ip, connection.port, byte_pack.data, byte_pack.size
             );
@@ -113,7 +114,6 @@ namespace junkworks
       if (connections_.size() == 4)
       {
          send_negative_handshake(payload.sender_ip, port);
-
          return;
       }
 
