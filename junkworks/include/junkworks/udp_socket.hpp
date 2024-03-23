@@ -11,9 +11,9 @@ namespace junkworks
    class UdpSocket
    {
       public:
-         static bool sockets_initialized;
+         static bool os_sockets_initialized;
 
-         static bool socket_initialization_successful;
+         static bool os_socket_initialization_successful;
 
          UdpSocket(void) = delete;
 

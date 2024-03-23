@@ -7,22 +7,23 @@
 
 namespace junkworks
 {
-   bool UdpSocket::sockets_initialized = false;
+   bool UdpSocket::os_sockets_initialized = false;
 
-   bool UdpSocket::socket_initialization_successful = false;
+   bool UdpSocket::os_socket_initialization_successful = false;
 
    UdpSocket::UdpSocket(const unsigned int bind_port)
    {
       bound_ = false;
 
-      if (!sockets_initialized)
+      if (!os_sockets_initialized)
       {
-         socket_initialization_successful = initialize_sockets();
-         sockets_initialized = true;
+         os_socket_initialization_successful = initialize_sockets();
+         os_sockets_initialized = true;
       }
 
-      if (!socket_initialization_successful)
+      if (!os_socket_initialization_successful)
       {
+         std::cout << "Couldn't initialize OS sockets\n";
          socket_handle_ = -1;
          bind_port_ = 0;
          return;
