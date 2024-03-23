@@ -53,6 +53,10 @@ int main(int argc, char ** argv)
 
          ++i;
       }
+      else
+      {
+         break;
+      }
 
       std::this_thread::sleep_for(std::chrono::milliseconds(20));
    }
