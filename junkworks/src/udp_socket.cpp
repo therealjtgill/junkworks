@@ -35,11 +35,11 @@ namespace junkworks
 
    UdpSocket::~UdpSocket(void)
    {
-   #if PLATFORM == PLATFORM_MAC || PLATFORM == PLATFORM_UNIX
+#if PLATFORM == PLATFORM_MAC || PLATFORM == PLATFORM_UNIX
       close(socket_handle_);
-   #elif PLATFORM == PLATFORM_WINDOWS
+#elif PLATFORM == PLATFORM_WINDOWS
       closesocket(socket_handle_);
-   #endif
+#endif
    }
 
    bool UdpSocket::try_send(
