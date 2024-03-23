@@ -1,6 +1,8 @@
 #include "junkworks/udp_socket.hpp"
 
+#include <chrono>
 #include <iostream>
+#include <thread>
 
 int main(int argc, char ** argv)
 {
@@ -25,6 +27,7 @@ int main(int argc, char ** argv)
       if (socket.try_receive(6, packet_data) > 0)
       {
          std::cout << "packet: " << packet_data << "\n";
+         std::this_thread::sleep_for(std::chrono::milliseconds(10));
       }
    }
 
