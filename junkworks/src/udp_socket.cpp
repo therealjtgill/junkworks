@@ -90,7 +90,12 @@ namespace junkworks
       }
 
       sockaddr_in from_address;
+
+#if PLATFORM == PLATFORM_MAC || PLATFORM == PLATFORM_LINUX
+      unsigned int from_address_size = 0;
+#elif PLATFORM == PLATFORM_WINDOWS
       int from_address_size = 0;
+#endif
 
       // any packet larger than 'max_packet_size' will be dropped
       int num_bytes_received = recvfrom(
@@ -115,7 +120,14 @@ namespace junkworks
       }
 
       sockaddr_in from_address;
-      int from_address_size = sizeof(from_address);
+
+#if PLATFORM == PLATFORM_MAC || PLATFORM == PLATFORM_LINUX
+      unsigned int from_address_size = 0;
+#elif PLATFORM == PLATFORM_WINDOWS
+      int from_address_size = 0;
+#endif
+
+      // int from_address_size = sizeof(from_address);
 
       raw_payload_t<128> temp_payload;
       temp_payload.size = 1;
