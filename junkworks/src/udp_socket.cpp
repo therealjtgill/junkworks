@@ -97,7 +97,9 @@ namespace junkworks
       int from_address_size = sizeof(sockaddr_in);
 #endif
 
-      // any packet larger than 'max_packet_size' will be dropped
+      // Any packet larger than 'max_packet_size' will be dropped.
+      // On Windows 'from_address_size' has to be non-zero to get IP address
+      // information from incoming packets.
       int num_bytes_received = recvfrom(
          socket_handle_,
          data,
@@ -132,6 +134,8 @@ namespace junkworks
 
       do
       {
+         // On Windows 'from_address_size' has to be non-zero to get IP
+         // address information from incoming packets.
          temp_payload.size = recvfrom(
             socket_handle_,
             temp_payload.data,
