@@ -91,7 +91,7 @@ namespace junkworks
 
       sockaddr_in from_address;
 
-#if PLATFORM == PLATFORM_MAC || PLATFORM == PLATFORM_LINUX
+#if PLATFORM == PLATFORM_MAC || PLATFORM == PLATFORM_UNIX
       unsigned int from_address_size = 0;
 #elif PLATFORM == PLATFORM_WINDOWS
       int from_address_size = 0;
@@ -121,7 +121,7 @@ namespace junkworks
 
       sockaddr_in from_address;
 
-#if PLATFORM == PLATFORM_MAC || PLATFORM == PLATFORM_LINUX
+#if PLATFORM == PLATFORM_MAC || PLATFORM == PLATFORM_UNIX
       unsigned int from_address_size = 0;
 #elif PLATFORM == PLATFORM_WINDOWS
       int from_address_size = 0;
