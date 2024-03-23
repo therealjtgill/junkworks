@@ -58,6 +58,8 @@ namespace junkworks
          uid_to_rx_bytes_.at(uid).push_back(temp_data);
       }
 
+      std::cout << "num things to send: " << uid_to_tx_bytes_.size() << "\n";
+
       // Send any new stuff
       for (const auto & uid_to_tx: uid_to_tx_bytes_)
       {
