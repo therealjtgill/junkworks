@@ -5,15 +5,24 @@
 
 int main(int argc, char ** argv)
 {
-   if (argc < 2)
+   if (argc < 6)
    {
-      std::cout << "need port number as first argument\n";
-      return 0;
+      std::cout << "server_ip0 server_ip1 server_ip2 server_ip3 client_port\n";
+      return 1;
    }
+
+   junkworks::ipv4add server_ip(
+      std::atoi(argv[1]),
+      std::atoi(argv[2]),
+      std::atoi(argv[3]),
+      std::atoi(argv[4])
+   );
+
+   const unsigned int bind_port = std::atoi(argv[5]);
 
    initialize_sockets();
 
-   junkworks::UdpSocket socket(atoi(argv[1]));
+   junkworks::UdpSocket socket(bind_port);
 
    if (!socket.bound())
    {
@@ -22,7 +31,7 @@ int main(int argc, char ** argv)
    }
 
    socket.try_send(
-      junkworks::ipv4add(127, 0, 0, 1), 8123, "stuff", sizeof("stuff")
+      server_ip, 8123, "stuff", sizeof("stuff")
    );
 
    return 0;
