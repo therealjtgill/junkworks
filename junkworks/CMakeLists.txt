@@ -23,10 +23,17 @@ set(
    junkworks
 )
 
-set(
-   junkwork_libs
-)
-
+if (WIN32)
+   set(
+      junkwork_libs
+      wsock32
+      ws2_32
+   )
+else()
+   set(
+      junkwork_libs
+   )
+endif()
 make_library(
    "${target}" "${junkwork_sources}" "${junkwork_headers}" "${junkwork_libs}" ${CMAKE_CURRENT_SOURCE_DIR}/include
 )

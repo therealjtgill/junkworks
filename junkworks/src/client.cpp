@@ -47,7 +47,7 @@ namespace junkworks
       bool got_response = false;
       for (auto & packet : packets_)
       {
-         const uint8_t packet_type = packet[0];
+         const char packet_type = packet[0];
          if (packet_type == 1)
          {
             if (
@@ -78,6 +78,10 @@ namespace junkworks
                got_response = true;
                std::cout << "Connection accepted! UID: " << uid_ << "\n";
             }
+         }
+         else
+         {
+            std::cout << "Unhandled packet type\n";
          }
       }
 

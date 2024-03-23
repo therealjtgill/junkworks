@@ -1,5 +1,6 @@
 #include "junkworks/basic_udp.h"
 
+#include <stdint.h>
 #include <stdio.h>
 
 int initialize_sockets(void)
@@ -71,15 +72,15 @@ int bind_socket(const int handle, const unsigned int port)
       printf("Failed to set port as non-blocking\n");
       return 0;
    }
-#elif
+#elif PLATFORM == PLATFORM_WINDOWS
    DWORD non_blocking = 1;
    if (
-      isoctlsocket(
+      ioctlsocket(
          handle, FIONBIO, &non_blocking
       ) != 0
    )
    {
-      std::cout << "Failed to set port as non-blocking\n";
+      printf("Failed to set port as non-blocking\n");
       return 0;
    }
 #endif

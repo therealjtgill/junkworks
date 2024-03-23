@@ -11,6 +11,10 @@ namespace junkworks
    class UdpSocket
    {
       public:
+         static bool os_sockets_initialized;
+
+         static bool os_socket_initialization_successful;
+
          UdpSocket(void) = delete;
 
          UdpSocket(const unsigned int bind_port);
@@ -40,8 +44,6 @@ namespace junkworks
 
       private:
          bool bind_to(const unsigned int bind_port);
-
-         bool initialize_sockets(void);
 
          void shutdown_sockets(void);
 
