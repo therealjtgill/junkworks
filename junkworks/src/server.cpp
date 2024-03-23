@@ -61,24 +61,17 @@ namespace junkworks
       // Send any new stuff
       for (const auto & uid_to_tx: uid_to_tx_bytes_)
       {
-         // if (!uid_to_tx.second.empty())
-         // {
-         //    std::cout << "num things to send: " << uid_to_tx.second.size() << "\n";
-         // }
-
          const client_connection_t connection = get_connection(
             uid_to_tx.first
          );
 
          if (connection.ip == 0)
          {
-            std::cout << "couldn't find ip for uid " << uid_to_tx.first << "\n";
             continue;
          }
 
          for (const auto & byte_pack : uid_to_tx.second)
          {
-            // std::cout << "sending packet to " << connection.ip << " port: " << connection.port << "\n";
             socket_.try_send(
                connection.ip, connection.port, byte_pack.data, byte_pack.size
             );
@@ -214,6 +207,7 @@ namespace junkworks
          }
       }
 
+      std::cout << "Couldn't find connection info for client uid " << uid << "\n";
       client_connection_t nonexistent_connection(0, 0);
       return nonexistent_connection;
    }

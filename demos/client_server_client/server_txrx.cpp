@@ -41,11 +41,6 @@ int main(int argc, char ** argv)
 
       const auto client_uids = server.get_uids();
 
-      // if (!uids.empty())
-      // {
-      //    std::cout << "there are " << uids.size() << " simultaneous server connections\n";
-      // }
-
       for (const auto client_uid : client_uids)
       {
          client_rx_data[client_uid];
@@ -53,10 +48,8 @@ int main(int argc, char ** argv)
          const auto rx_data = server.get_client_rx_bytes(client_uid);
          if (!rx_data.empty())
          {
-            // std::cout << "got " << rx_data.size() << " packets from uid " << uid << "\n";
             for (const auto & rx_bytes : rx_data)
             {
-               // std::cout << "\t" << bytes_to_int(rx_bytes) << "\n";
                client_rx_data[client_uid].push_back(bytes_to_int(rx_bytes, 2));
             }
          }
