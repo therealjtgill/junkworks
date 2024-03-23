@@ -1,25 +1,46 @@
 #include "junkworks/udp_socket.hpp"
 
+#include "junkworks/basic_udp.h"
 #include "junkworks/network_common.h"
 
 #include <iostream>
 
 namespace junkworks
 {
+   bool UdpSocket::os_sockets_initialized = false;
+
+   bool UdpSocket::os_socket_initialization_successful = false;
 
    UdpSocket::UdpSocket(const unsigned int bind_port)
-      : socket_handle_(socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP))
-      , bound_(bind_to(bind_port))
-      , bind_port_(bound_ ? bind_port : 0)
-   { }
+   {
+      bound_ = false;
+
+      if (!os_sockets_initialized)
+      {
+         os_socket_initialization_successful = initialize_sockets();
+         os_sockets_initialized = true;
+      }
+
+      if (!os_socket_initialization_successful)
+      {
+         std::cout << "Couldn't initialize OS sockets\n";
+         socket_handle_ = -1;
+         bind_port_ = 0;
+         return;
+      }
+
+      socket_handle_ = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+      bound_ = bind_to(bind_port);
+      bind_port_ = bound_ ? bind_port : 0;
+   }
 
    UdpSocket::~UdpSocket(void)
    {
-   #if PLATFORM == PLATFORM_MAC || PLATFORM == PLATFORM_UNIX
+#if PLATFORM == PLATFORM_MAC || PLATFORM == PLATFORM_UNIX
       close(socket_handle_);
-   #elif PLATFORM == PLATFORM_WINDOWS
+#elif PLATFORM == PLATFORM_WINDOWS
       closesocket(socket_handle_);
-   #endif
+#endif
    }
 
    bool UdpSocket::try_send(
@@ -39,6 +60,11 @@ namespace junkworks
       const unsigned int data_len
    ) const
    {
+      if (!os_socket_initialization_successful)
+      {
+         return false;
+      }
+
       sockaddr_in send_address;
       send_address.sin_family = AF_INET;
       send_address.sin_addr.s_addr = dest_internet_address;
@@ -68,10 +94,22 @@ namespace junkworks
       char * data
    ) const
    {
-      sockaddr_in from_address;
-      unsigned int from_address_size = 0;
+      if (!os_socket_initialization_successful)
+      {
+         return 0;
+      }
 
-      // any packet larger than 'max_packet_size' will be dropped
+      sockaddr_in from_address;
+
+#if PLATFORM == PLATFORM_MAC || PLATFORM == PLATFORM_UNIX
+      unsigned int from_address_size = sizeof(sockaddr_in);
+#elif PLATFORM == PLATFORM_WINDOWS
+      int from_address_size = sizeof(sockaddr_in);
+#endif
+
+      // Any packet larger than 'max_packet_size' will be dropped.
+      // On Windows 'from_address_size' has to be non-zero to get IP address
+      // information from incoming packets.
       int num_bytes_received = recvfrom(
          socket_handle_,
          data,
@@ -88,14 +126,26 @@ namespace junkworks
       std::vector<raw_rx_payload_t<128> > & payloads
    ) const
    {
+      if (!os_socket_initialization_successful)
+      {
+         return;
+      }
+
       sockaddr_in from_address;
-      unsigned int from_address_size = sizeof(from_address);
+
+#if PLATFORM == PLATFORM_MAC || PLATFORM == PLATFORM_UNIX
+      unsigned int from_address_size = sizeof(sockaddr_in);
+#elif PLATFORM == PLATFORM_WINDOWS
+      int from_address_size = sizeof(sockaddr_in);
+#endif
 
       raw_rx_payload_t<128> temp_payload;
       temp_payload.size = 1;
 
       do
       {
+         // On Windows 'from_address_size' has to be non-zero to get IP
+         // address information from incoming packets.
          temp_payload.size = recvfrom(
             socket_handle_,
             temp_payload.data,
@@ -123,6 +173,7 @@ namespace junkworks
    {
       if (socket_handle_ < 0)
       {
+         std::cout << "bad socket handle: " << socket_handle_ << "\n";
          return false;
       }
 
@@ -152,7 +203,7 @@ namespace junkworks
       }
 
       // set socket as non-blocking
-   #if PLATFORM == PLATFORM_MAC || \
+#if PLATFORM == PLATFORM_MAC || \
       PLATFORM == PLATFORM_UNIX
       int non_blocking = 1;
       if (
@@ -164,18 +215,18 @@ namespace junkworks
          std::cout << "Failed to set port as non-blocking\n";
          return false;
       }
-   #elif
+#elif PLATFORM == PLATFORM_WINDOWS
       DWORD non_blocking = 1;
       if (
-         isoctlsocket(
-            handle, FIONBIO, &non_blocking
+         ioctlsocket(
+            socket_handle_, FIONBIO, &non_blocking
          ) != 0
       )
       {
          std::cout << "Failed to set port as non-blocking\n";
          return false;
       }
-   #endif
+#endif
 
       return true;
    }
