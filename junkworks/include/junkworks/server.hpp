@@ -18,14 +18,44 @@ namespace junkworks
 
          void update(void);
 
-         void handle_handshake(const raw_payload_t<128> & payload);
+         void handle_handshake(const raw_rx_payload_t<128> & payload);
+
+         std::vector<byte_data_t<128> > get_client_rx_bytes(
+            const unsigned int uid
+         ) const;
+
+         void set_client_tx_bytes(
+            const unsigned int uid, const std::vector<byte_data_t<128> > & tx_bytes
+         );
+
+         std::vector<unsigned int> get_uids(void) const;
 
       private:
          UdpSocket socket_;
 
-         std::vector<raw_payload_t<128> > packets_;
+         std::vector<raw_rx_payload_t<128> > rx_packets_;
+
+         std::vector<raw_rx_payload_t<128> > rx_handshake_packets_;
+
+         std::vector<raw_rx_payload_t<128> > rx_behavior_packets_;
 
          std::map<client_connection_t, unsigned int> connections_;
+
+         std::map<
+            unsigned int,
+            std::vector<byte_data_t<128> >
+         > uid_to_rx_bytes_;
+
+         std::map<
+            unsigned int,
+            std::vector<byte_data_t<128> >
+         > uid_to_tx_bytes_;
+
+         const unsigned int invalid_uid_;
+
+         unsigned int get_uid(const raw_rx_payload_t<128> & packet) const;
+
+         client_connection_t get_connection(const unsigned int uid) const;
 
          void send_negative_handshake(
             const unsigned int addr, const unsigned int port

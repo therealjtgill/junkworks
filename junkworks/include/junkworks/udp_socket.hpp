@@ -28,12 +28,19 @@ namespace junkworks
             const unsigned int data_len
          ) const;
 
+         bool try_send(
+            const unsigned int dest_internet_address,
+            const unsigned int dest_port,
+            const char * data,
+            const unsigned int data_len
+         ) const;
+
          int try_receive(
             const unsigned int max_data_len,
             char * data
          ) const;
 
-         void receive_all(std::vector<raw_payload_t<128> > & payloads) const;
+         void receive_all(std::vector<raw_rx_payload_t<128> > & payloads) const;
 
          bool bound(void) const;
 

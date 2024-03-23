@@ -3,8 +3,9 @@ set(
    src/basic_udp.c
    src/client.cpp
    src/ipv4add.cpp
-   src/udp_socket.cpp
    src/server.cpp
+   src/udp_socket_wrapper.cpp
+   src/udp_socket.cpp
 )
 
 set(
@@ -15,6 +16,7 @@ set(
    include/junkworks/network_common.h
    include/junkworks/server.hpp
    include/junkworks/types.hpp
+   include/junkworks/udp_socket_wrapper.hpp
    include/junkworks/udp_socket.hpp
 )
 

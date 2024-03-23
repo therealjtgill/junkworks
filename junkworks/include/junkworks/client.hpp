@@ -24,6 +24,15 @@ namespace junkworks
             return handshake_in_progress_;
          }
 
+         bool behavior_running(void) const
+         {
+            return behavior_running_;
+         }
+
+         std::vector<byte_data_t<128> > get_rx_bytes(void) const;
+
+         void set_tx_bytes(const std::vector<byte_data_t<128> > & tx_bytes);
+
       private:
          UdpSocket socket_;
 
@@ -41,7 +50,13 @@ namespace junkworks
 
          int uid_;
 
-         std::vector<raw_payload_t<128> > packets_;
+         bool behavior_running_;
+
+         std::vector<raw_rx_payload_t<128> > rx_packets_;
+
+         std::vector<byte_data_t<128> > rx_bytes_;
+
+         std::vector<byte_data_t<128> > tx_bytes_;
 
          void send_handshake_packet(void);
    };

@@ -50,6 +50,16 @@ namespace junkworks
       const unsigned int data_len
    ) const
    {
+      return try_send(dest_ip.internet_address(), dest_port, data, data_len);
+   }
+
+   bool UdpSocket::try_send(
+      const unsigned int dest_internet_address,
+      const unsigned int dest_port,
+      const char * data,
+      const unsigned int data_len
+   ) const
+   {
       if (!os_socket_initialization_successful)
       {
          return false;
@@ -57,7 +67,7 @@ namespace junkworks
 
       sockaddr_in send_address;
       send_address.sin_family = AF_INET;
-      send_address.sin_addr.s_addr = dest_ip.internet_address();
+      send_address.sin_addr.s_addr = dest_internet_address;
       send_address.sin_port = htons(dest_port);
 
       const unsigned int num_bytes_sent = sendto(
@@ -113,7 +123,7 @@ namespace junkworks
    }
 
    void UdpSocket::receive_all(
-      std::vector<raw_payload_t<128> > & payloads
+      std::vector<raw_rx_payload_t<128> > & payloads
    ) const
    {
       if (!os_socket_initialization_successful)
@@ -129,7 +139,7 @@ namespace junkworks
       int from_address_size = sizeof(sockaddr_in);
 #endif
 
-      raw_payload_t<128> temp_payload;
+      raw_rx_payload_t<128> temp_payload;
       temp_payload.size = 1;
 
       do
@@ -145,7 +155,7 @@ namespace junkworks
             &from_address_size
          );
 
-         temp_payload.ip = from_address.sin_addr.s_addr;
+         temp_payload.sender_ip = from_address.sin_addr.s_addr;
 
          if (temp_payload.size > 0)
          {

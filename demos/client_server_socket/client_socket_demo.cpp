@@ -30,8 +30,10 @@ int main(int argc, char ** argv)
       return 1;
    }
 
+   const char greeting[] = "stuff";
+
    socket.try_send(
-      server_ip, 8123, "stuff", sizeof("stuff")
+      server_ip, 8123, greeting, sizeof(greeting)
    );
 
    return 0;

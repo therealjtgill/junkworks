@@ -128,8 +128,13 @@ int receive_packet(
    char * packet_data
 )
 {
-   // any packet larger than 'max_packet_size' will be dropped
+#if PLATFORM == PLATFORM_MAC || PLATFORM == PLATFORM_UNIX
    unsigned int from_address_size = sizeof(from_address);
+#elif PLATFORM == PLATFORM_WINDOWS
+   int from_address_size = sizeof(sockaddr_in);
+#endif
+
+   // any packet larger than 'max_packet_size' will be dropped
    int bytes = recvfrom(
       socket,
       packet_data,

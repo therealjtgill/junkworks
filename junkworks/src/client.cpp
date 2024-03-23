@@ -17,6 +17,7 @@ namespace junkworks
       , handshake_in_progress_(true)
       , first_handshake_sent_(false)
       , uid_(-1)
+      , behavior_running_(false)
    {
       if (bind_port < 8000)
       {
@@ -27,12 +28,31 @@ namespace junkworks
 
    void Client::update(void)
    {
-      packets_.clear();
-      socket_.receive_all(packets_);
+      rx_packets_.clear();
+      socket_.receive_all(rx_packets_);
 
       if (handshake_in_progress_)
       {
          handshake();
+      }
+      else if (!handshake_in_progress_ && behavior_running_)
+      {
+         rx_bytes_.clear();
+         byte_data_t<128> temp_byte_data;
+         for (const auto & rx_packet : rx_packets_)
+         {
+            temp_byte_data = rx_packet;
+            rx_bytes_.push_back(temp_byte_data);
+         }
+
+         for (const auto & tx_msg : tx_bytes_)
+         {
+            socket_.try_send(
+               server_ip_, server_port_, tx_msg.data, 128
+            );
+         }
+
+         tx_bytes_.clear();
       }
    }
 
@@ -45,7 +65,7 @@ namespace junkworks
       }
 
       bool got_response = false;
-      for (auto & packet : packets_)
+      for (auto & packet : rx_packets_)
       {
          const char packet_type = packet[0];
          if (packet_type == 1)
@@ -100,6 +120,24 @@ namespace junkworks
             send_handshake_packet();
          }
       }
+      else
+      {
+         behavior_running_ = true;
+      }
+   }
+
+   std::vector<byte_data_t<128> > Client::get_rx_bytes(void) const
+   {
+      std::vector<byte_data_t<128> > bytes_copy;
+      bytes_copy.reserve(rx_bytes_.size());
+      bytes_copy = rx_bytes_;
+
+      return bytes_copy;
+   }
+
+   void Client::set_tx_bytes(const std::vector<byte_data_t<128> > & tx_bytes)
+   {
+      tx_bytes_ = tx_bytes;
    }
 
    void Client::send_handshake_packet(void)
