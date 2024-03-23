@@ -24,14 +24,14 @@ namespace junkworks
          bool try_send(
             const ipv4add dest_ip,
             const unsigned int dest_port,
-            const unsigned char * data,
+            const char * data,
             const unsigned int data_len
          ) const;
 
          bool try_send(
             const unsigned int dest_internet_address,
             const unsigned int dest_port,
-            const unsigned char * data,
+            const char * data,
             const unsigned int data_len
          ) const;
 

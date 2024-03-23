@@ -8,16 +8,16 @@ namespace junkworks
    template <int Size_T>
    struct raw_rx_payload_t
    {
-      unsigned char data[Size_T];
+      char data[Size_T];
       int size;
       unsigned int sender_ip;
 
-      unsigned char & operator[](int i)
+      char & operator[](int i)
       {
          return data[i];
       }
 
-      const unsigned char & operator[](int i) const
+      const char & operator[](int i) const
       {
          return data[i];
       }
@@ -26,15 +26,15 @@ namespace junkworks
    template <int Size_T>
    struct raw_tx_payload_t
    {
-      unsigned char data[Size_T];
+      char data[Size_T];
       int size;
 
-      unsigned char & operator[](int i)
+      char & operator[](int i)
       {
          return data[i];
       }
 
-      const unsigned char & operator[](int i) const
+      const char & operator[](int i) const
       {
          return data[i];
       }
@@ -43,15 +43,15 @@ namespace junkworks
    template <int Size_T>
    struct byte_data_t
    {
-      unsigned char data[Size_T];
+      char data[Size_T];
       int size;
 
-      unsigned char & operator[](int i)
+      char & operator[](int i)
       {
          return data[i];
       }
 
-      const unsigned char & operator[](int i) const
+      const char & operator[](int i) const
       {
          return data[i];
       }

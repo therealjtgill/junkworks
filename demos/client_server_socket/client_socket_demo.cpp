@@ -30,7 +30,7 @@ int main(int argc, char ** argv)
       return 1;
    }
 
-   const unsigned char greeting[] = "stuff";
+   const char greeting[] = "stuff";
 
    socket.try_send(
       server_ip, 8123, greeting, sizeof(greeting)
