@@ -50,6 +50,11 @@ namespace junkworks
       const unsigned int data_len
    ) const
    {
+      if (!os_socket_initialization_successful)
+      {
+         return false;
+      }
+
       sockaddr_in send_address;
       send_address.sin_family = AF_INET;
       send_address.sin_addr.s_addr = dest_ip.internet_address();
@@ -79,6 +84,11 @@ namespace junkworks
       char * data
    ) const
    {
+      if (!os_socket_initialization_successful)
+      {
+         return 0;
+      }
+
       sockaddr_in from_address;
       int from_address_size = 0;
 
@@ -99,6 +109,11 @@ namespace junkworks
       std::vector<raw_payload_t<128> > & payloads
    ) const
    {
+      if (!os_socket_initialization_successful)
+      {
+         return;
+      }
+
       sockaddr_in from_address;
       int from_address_size = sizeof(from_address);
 
