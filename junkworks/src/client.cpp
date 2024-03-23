@@ -31,6 +31,8 @@ namespace junkworks
       rx_packets_.clear();
       socket_.receive_all(rx_packets_);
 
+      std::cout << "got " << rx_packets_.size() << " client packets\n";
+
       if (handshake_in_progress_)
       {
          handshake();
