@@ -107,7 +107,6 @@ namespace junkworks
       if (connections_.size() == 4)
       {
          send_negative_handshake(payload.sender_ip, port);
-
          return;
       }
 
@@ -208,6 +207,7 @@ namespace junkworks
          }
       }
 
+      std::cout << "Couldn't find connection info for client uid " << uid << "\n";
       client_connection_t nonexistent_connection(0, 0);
       return nonexistent_connection;
    }
