@@ -92,9 +92,9 @@ namespace junkworks
       sockaddr_in from_address;
 
 #if PLATFORM == PLATFORM_MAC || PLATFORM == PLATFORM_UNIX
-      unsigned int from_address_size = 0;
+      unsigned int from_address_size = sizeof(sockaddr_in);
 #elif PLATFORM == PLATFORM_WINDOWS
-      int from_address_size = 0;
+      int from_address_size = sizeof(sockaddr_in);
 #endif
 
       // any packet larger than 'max_packet_size' will be dropped
@@ -122,9 +122,9 @@ namespace junkworks
       sockaddr_in from_address;
 
 #if PLATFORM == PLATFORM_MAC || PLATFORM == PLATFORM_UNIX
-      unsigned int from_address_size = 0;
+      unsigned int from_address_size = sizeof(sockaddr_in);
 #elif PLATFORM == PLATFORM_WINDOWS
-      int from_address_size = 0;
+      int from_address_size = sizeof(sockaddr_in);
 #endif
 
       raw_payload_t<128> temp_payload;
