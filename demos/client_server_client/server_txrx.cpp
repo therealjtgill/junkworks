@@ -77,7 +77,7 @@ int main(int argc, char ** argv)
             {
                junkworks::byte_data_t<128> temp_bytes;
                temp_bytes.size = 128;
-               int int_uid = static_cast<int>(client_uid);
+               int int_uid = static_cast<int>(client_data.first);
                int_to_bytes(int_uid, temp_bytes, 2);
                int_to_bytes(single_int, temp_bytes, 6);
 
